@@ -1,0 +1,6 @@
+*.pyc
+*.log
+warn*.txt
+/build/*
+/dist/*
+/appname/*

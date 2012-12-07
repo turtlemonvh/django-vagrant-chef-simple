@@ -1,0 +1,51 @@
+<style>
+
+</style>
+
+<div class="top-section group-panel">
+    <div id ="groups-list" class="main-block">
+        <h2>Group Options  <button class='btn btn-primary'>Add new</button></h2>
+        <form id="add-group-form" action="create" class="hidden">
+          <input type="hidden" name="group-id"/>
+          <div class="control-group">
+            <label class="control-label">Name</label>
+            <div class="controls">
+              <input type="text">
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">Description</label>
+            <div class="controls">
+              <textarea rows="3"></textarea>
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="controls">
+              <button class="btn btn-primary save">Create</button>
+              <button class="btn cancel">Close</button>
+            </div>
+          </div>
+        </form>
+        <img class="hidden centered-absolute" src="/site_media/static/img/ajax-loader.gif">
+        <div class="group-options">
+            
+        </div>
+    </div>
+    <div id ="edit-group-display" class="main-block">
+        <img class="hidden centered-absolute" src="/site_media/static/img/ajax-loader.gif">
+        <div class="active filters">
+            <h2>Active Groups</h2>
+            <em>The filters from these groups are displayed</em>
+            <div class="droppable">
+                
+            </div>
+        </div>
+        <div class="assign filters">
+            <h2>Assignment Groups</h2>
+            <em>New filters will be assigned to these groups.  Existing filters can be moved between groups by going <a href="/browser/filtergroup/manage/" target="_blank">here</a>.</em>
+            <div class="droppable">
+                
+            </div>
+        </div>
+    </div>
+</div>

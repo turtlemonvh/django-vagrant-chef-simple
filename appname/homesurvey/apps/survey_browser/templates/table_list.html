@@ -1,0 +1,14 @@
+{% extends "homesurvey_base.html" %}
+
+{% block body %}
+
+<h1>Tables</h1>
+{% for t in filtered_tables %}
+    <li>{{ t }}</li>
+{% endfor %}
+<h1>Objects and fields</h1>
+{% for m in sm %}
+    <li>{{ m }}</li>
+{% endfor %}
+
+{% endblock body %}

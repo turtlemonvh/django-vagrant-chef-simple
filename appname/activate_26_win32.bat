@@ -1,0 +1,1 @@
+C:\Python26\VIRTUAL_ENVS\homelab_homesurvey\Scripts\activate

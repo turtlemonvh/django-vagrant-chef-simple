@@ -1,0 +1,3 @@
+Chef cookbooks for running vagrant configuration
+
+To start, run "vagrant up" in top directory

@@ -1,0 +1,151 @@
+<style>
+    .display-list {
+        max-height: 500px;
+        overflow-y: scroll;
+        border:2px solid gray;
+    }
+
+    #edit-meta-filter-display .meta-create-block > div {
+        float: left;
+        min-height: 100px;
+        margin-right: 5px;
+        position:relative;
+    }
+
+    #edit-meta-filter-display .meta-create-block > div > :first-child:not(.filter-tag-title) {
+        position:absolute;
+        top:50%;
+        height:2em;
+        margin-top:-1em;
+    }
+
+    #edit-meta-filter-display .meta-create-block .meta {
+        width: 14em;
+        height: 7em;
+        overflow-y: hidden;
+    }
+
+    #edit-meta-filter-display .meta-create-block .meta > :first-child {
+        width: 50%;
+        margin-left: 25%;
+        font-size: 2em;
+        font-weight:bold;
+    }
+
+    #edit-meta-filter-display .meta-create-block .meta[filter-id] > span {
+        margin-left: 0px;
+        font-weight:bold;
+    }
+    #edit-meta-filter-display .meta-create-block .meta[filter-id] > * {
+        padding: 3px;
+        font-size: 0.8em;
+    }
+
+    #edit-meta-filter-display .operator {
+        width: 7em;
+    }
+
+    #edit-meta-filter-display .operator select {
+        width: 100%;
+    }
+
+    #edit-meta-filter-display .meta {
+        border-width:5px;
+        border-style: dotted;
+        border-color: red;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+    }
+    
+    #edit-meta-filter-display .meta.ui-drop-dropped {
+        border-color: green;
+        border-style: solid;
+    }
+
+    #edit-meta-filter-display .meta.ui-drop-ready {
+        border-color: yellow;
+        border-style: dotted;
+    }
+
+</style>
+
+<div class="top-section">
+    <div id = "filter-list" class="main-block">
+        <h2>All Filters</h2>
+        <div class="display-list"></div>
+    </div>
+    <div id = "edit-meta-filter-display" class="main-block">
+        <img class="hidden centered-absolute" src="/site_media/static/img/ajax-loader.gif">
+        <div class="label-block">
+            <h2>Create New Meta Filter</h2>
+        </div>
+        <form id="new-meta-filter-form" class="form-horizontal">
+          <input type="hidden" name="filter-id" value="null">
+          <div class="control-group">
+            <label class="control-label" for="inputMetaName">Name</label>
+            <div class="controls">
+              <input type="text" id="inputMetaName" disabled>
+              <span class="help-inline hidden empty">Name must be defined</span>
+              <span class="help-inline hidden toolong">Name must be less than 100 characters</span>
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="controls">
+              <input type="checkbox" id="metaFilterAutoName" value="" checked=checked>
+              <em>Assign Name Automatically</em>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="inputMetaDescription">Description</label>
+            <div class="controls">
+              <textarea id="inputMetaDescription" rows="3"></textarea>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="meta-create-block">Operation</label>
+            <div class="controls">
+                <div class="meta-create-block">
+                    <div class="meta left">
+                        <span>Filter 1</span>
+                    </div>
+                    <div class="operator">
+                        <select>
+                          <option value="and">and</option>
+                          <option value="or">or</option>
+                          <option value="xor">xor</option>
+                        </select>
+                    </div>
+                    <div class="meta right">
+                        <span>Filter 2</span>
+                    </div>
+                </div>
+                <span class="help-inline hidden">Both filters must be defined before saving</span>
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="controls">
+              <button class="btn btn-primary save">Create</button>
+              <button class="btn saveas hidden">Copy</button>
+              <button class="btn cancel">Clear</button>
+              <button class="btn btn-danger hidden">Delete</button>
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="controls">
+              <button class="btn btn-info preview disabled" type="button" title="Save the filter first to preview">Preview Selected IDs</button>
+              <br/>
+              <textarea class="idPreview" rows="3" disabled></textarea>
+            </div>
+          </div>
+        </form>
+    </div>
+    <div style="clear: both;"></div>
+</div>
+<hr/>
+<div id = "meta-filter-display" class="full-section">
+    <div class="label-block">
+        <h2>Current Meta Filters</h2><a class="hidden" href="#">Show All</a>
+    </div>
+    <div class="display-box"></div>
+</div>

@@ -1,0 +1,93 @@
+<style>
+    #browse-filter-display .display-box{
+        max-height: 500px;
+        overflow-y: scroll;
+    }
+    
+    #participant-data-table .participant-table{
+        width: 80%;
+    }
+
+    #export-section .export-form{
+        width: 80%;
+        float: left;
+        clear: left;
+    }
+    
+    h2 > em {
+        font-size: 50%;
+    }
+    
+    #export-section {
+        clear:both;
+        width: 95%;
+        margin: 10px;
+    }
+    
+    span.help-inline {
+        font-style: italic;
+    }
+    
+</style>
+
+<div id = "export-section">
+    <div class="label-block">
+        <h2>Export Data</h2>
+    </div>
+    <div class="export-form">
+        <form class="form-horizontal">
+          <input class="filter-id" value="-1" type="hidden" />
+          <input class="filter-type" value="-1" type="hidden" />
+          <div class="control-group">
+            <label class="control-label">Export data for:</label>
+            <div class="controls">
+              <span class="input-xxlarge uneditable-input">All Participants</span>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">Sections to export</label>
+            <div class="controls">
+                <select multiple="multiple" class="input-xlarge">
+                    {% for o in export_options.values %}
+                  <option value="{{ forloop.counter0 }}">{{ o.formatted_name }}</option>
+                    {% endfor %}
+                </select>
+                <span class="help-inline">To export all data, <a href="#">leave all options unselected.</a></span>
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="controls">
+              <a type="submit" class="btn btn-primary" href="/browser/download/csv/" target="_blank">Export to CSV</a>
+              <img class="hidden" src="/site_media/static/img/ajax-loader.gif">
+            </div>
+          </div>
+        </form>
+    </div>
+</div>
+
+<div id = "browse-filter-display" class="full-section">
+    <div class="label-block">
+        <h2>Current Filters <em>Click a filter to select and preview matching participants</em></h2>
+    </div>
+    <div class="display-box"></div>
+</div>
+
+<div id = "participant-data-table" class="full-section">
+    <div class="label-block">
+        <h2><img class="" src="/site_media/static/img/ajax-loader.gif"><span class="hidden">##</span> <span>Matching Participants</span></h2><a href="#">Show All</a>
+    </div>
+    <div class="participant-table"></div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        // Avoid having to keep up with drop down separately and instead just replace the text on an un-editable field when an option is selected
+        // Still need another option which is the set of fields do include in the generated file; probably a multi-select-type option
+        
+        $("#export-section form > button").click(function(event){
+            event.preventDefault();
+            $(this).addClass("disabled");
+            $("#export-section .export-form img").removeClass("hidden");
+        })
+    })
+</script>

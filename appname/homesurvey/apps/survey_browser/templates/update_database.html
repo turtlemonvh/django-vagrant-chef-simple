@@ -1,0 +1,149 @@
+{% extends "homesurvey_base.html" %}
+
+{% block extra_style %}
+        {{ block.super }}
+        <style>
+            .loader-gif {
+                display: inline;
+            }
+            
+            .survey-import-options {
+                float: left;
+                width: 45%;
+                margin-right: 20px;
+                margin-bottom: 10px;
+                height: 400px;
+            }
+            
+            .survey-import-options div {
+                max-height: 300px;
+                overflow: auto;
+                margin-bottom: 10px;
+            }
+            
+            #update-results {
+                clear: left;
+            }
+        </style>
+{% endblock %}
+
+{% block body %}
+
+<h2>Last Update Time</h2>
+<p>{{ last_fetch_time }}</p>
+
+<h2>Active Surveys</h2>
+<div id="active-survey-table">
+{% include "active_survey_table.html" %}
+</div>
+
+{% if missing_token_rows %}
+<div class="missing-tokens">
+{% for k,token_rows in missing_token_rows.items %}
+    {% if token_rows %}
+        {% include "survey_import_options.html" %}
+    {% endif %}
+{% endfor %}
+</div>
+{% endif %}
+
+<div id="update-results">
+    <h2>Update Results</h2>
+    <a id="update-button" href = "#" class="btn btn-primary">Start Update</a><div class="loader-gif"></div>
+    <p id="update-progress"></p>
+</div>
+
+{% endblock body %}
+
+{% block extra_script %}
+<script>
+// Generate 32 char random uuid 
+function gen_uuid() {
+    var uuid = ""
+    for (var i=0; i < 32; i++) {
+        uuid += Math.floor(Math.random() * 16).toString(16); 
+    }
+    return uuid
+}
+
+$(document).ready(function(){
+    // Click the update button
+    $("#update-button").click(function(){
+        // Don't do anything if it is running
+        if($(this).hasClass("disabled")) return false;
+        
+        // Mark button as disabled
+        $(this).addClass("disabled");
+        
+        var freq = 1000; // freqency of update in ms
+        var uuid = gen_uuid(); // id for this upload so we can fetch progress info.
+        var progress_url = '/browser/update/progresscheck/'; // ajax view serving progress info
+        var update_url = '/browser/update/runupdate/'; // view to fetch new entries and import
+        var loader_gif_url = '/site_media/static/img/ajax-loader.gif'
+        
+        // Load gif and change text to show status
+        $("#update-results .loader-gif").html('<img src="' + loader_gif_url + '">');
+        $("#update-progress").html("Staring...")
+        
+        // Load the information about the requested update fields into a dictionary to pass to server
+        var update_fields = {}
+        $.each($(".survey-import-options"), function(k,v){ 
+            var survey_string = $(this).find("h3").html();
+            $.each($(this).find(":checked"), function(k,v){
+                if (update_fields[survey_string] == undefined){
+                    update_fields[survey_string] = {}
+                }
+                update_fields[survey_string][k] = $(v).attr("token");   
+            })
+        })
+        
+        // Main update function
+        $.ajax({
+            async: true,
+            data: $.extend(update_fields, {'X-Progress-ID': uuid}),
+            url: update_url
+        }).done(function(data){
+            console.log("I'm done!")
+            $("#update-button").removeClass("disabled");
+            $("#active-survey-table").html(data);
+            $(".missing-tokens").remove();
+            $("#update-results .loader-gif").html("");
+        })
+        
+        
+        // Progress checker
+        // Doesn't work very well on dev server b/c single thread locks up for main function and this doesn't return until main function finishes
+        function update_progress() {
+            $.get(progress_url, {'X-Progress-ID': uuid}, function(data, status){
+                if(data){
+                    $("#update-progress").html(data);
+                    if ($("#update-button").hasClass("disabled")){
+                        window.setTimeout(update_progress(), freq);
+                    }
+                }
+            })
+        }
+        
+        window.setTimeout(update_progress(), freq);
+    })
+    
+    /*
+     * Event handlers for easy handling of selecting participants to add
+     */
+    $(".check-all").click(function(){
+        $.each($(this).parent().find("input:checkbox"), function(){ this.checked = true;})
+    })
+    
+    $(".uncheck-all").click(function(){
+        $.each($(this).parent().find("input:checkbox"), function(){ this.checked = false;})
+    })
+        
+    $(".reverse-checked").click(function(){
+        $.each($(this).parent().find("input:checkbox"), function(){ this.checked = !this.checked;})
+    })
+    
+})
+</script>
+{% endblock %}
+
+

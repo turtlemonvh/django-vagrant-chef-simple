@@ -1,0 +1,38 @@
+{% extends "homesurvey_base.html" %}
+
+{% block body %}
+
+<h1><a name="#top" style="text-decoration:none">Surveys</a></h1>
+<em>This page lists the columns for the LimeSurvey database tables for each of the current studies.</em>
+<ul>
+{% for s in surveys %}
+	<li><a href="#{{s}}">{{ s }}</a></li>
+{% endfor %}
+</ul>
+
+{% for k, v in survey_data.items %}
+	<h1><a name="{{ k }}">{{ k }}</a></h1>
+	<a href="#top">back to top</a>
+	<table class="table table-striped table-bordered table-condensed">
+		<tr>
+			<th>Column #</th>
+			<th>Long ID</th>
+			<th>Group ID</th>
+			<th>Question ID</th>
+			<th>Long Question</th>
+			<th>Answers (if applicable)</th>
+		</tr>
+	{% for sr in v  %}
+		<tr>
+			<td>{{ forloop.counter }}</td>
+			<td>{{ sr.0 }}</td>
+			<td>{{ sr.1 }}</td>
+			<td>{{ sr.2 }}</td>
+			<td>{{ sr.3 }}</td>
+			<td>{{ sr.4 }}</td>
+		</tr>
+	{% endfor %}
+	</table>
+{% endfor %}
+
+{% endblock body %}

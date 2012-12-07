@@ -1,0 +1,156 @@
+div.container.main-content {
+    margin-bottom: -60px;
+}
+
+#accordian-div li div.content-swipe-panel {
+    overflow: auto;
+}
+#accordian-div {
+    border: 2px solid black;
+}
+
+li.slide > h2 {
+    border-top: 1px solid white;
+}
+
+.options-tree li.filter-option-category:hover {
+    cursor: pointer;
+}
+
+#options-list .options-tree {
+    font-size: 80%;
+}
+
+.sub-title {
+    font-size: 0.75em;
+    font-style: italic;
+}
+
+.filter {
+    font-size: 80%;
+    overflow: hidden;
+    border:2px solid black;
+    margin: 10px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.filter:hover {
+    cursor: pointer;
+    border-style: dashed;
+}
+
+.display-box .filter {
+    height: 7em;
+    width: 14em;
+    float: left;
+    clear: none;
+}
+
+.display-list .filter {
+    height: 5em;
+    width: 20em;
+    float: left;
+    clear: left;
+}
+
+.filter .filter-tag-title {
+    font-weight:bold;
+    color: red;
+}
+
+.filter.meta .filter-tag-title {
+    color: blue;
+}
+
+div.ui-drop-dropped[filter-type=value] span.filter-tag-title{
+    color: red;
+}
+
+div.ui-drop-dropped[filter-type=meta] span.filter-tag-title{
+    color: blue;
+}
+
+.display-box {
+    clear: left;
+}
+
+.top-section div.main-block {
+    float:left;
+    min-height: 400px;
+    margin-left: 2px;
+    margin-bottom: 2px;
+    padding: 5px;
+    margin: 2px;
+    margin-bottom: -1000px; padding-bottom: 1000px;
+}
+
+.top-section div.main-block:first-child {
+    min-width: 25%;
+    max-width: 35%;
+}
+
+.top-section div.main-block:nth-child(2) {
+    clear:right;
+    min-width: 60%;
+    border-left: 1px solid black;
+    /* background-color: gray; */
+}
+
+.top-section {
+    overflow: hidden;
+}
+
+.full-section {
+    clear:both;
+    min-height: 300px;
+    width: 95%;
+    margin: 10px;
+}
+
+.full-section h2, .full-section a {
+    display: block;
+    float:left;
+}
+
+#edit-filter-display, #options-list {
+    position: relative;
+}
+
+img.centered-absolute {
+    position: absolute;
+    top: 10%;
+    right: 50%;
+}
+
+/* Greyed out and cenetered and large */
+div.centered-info {
+    font-size: 1em;
+    font-style: italic;
+    margin-left: auto;
+    margin-right: auto;
+    width: 30%;
+    margin-top: 20%;
+    border: 1px dashed black;
+    padding: 0.5em;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+
+div.idPreview {
+    background-color: #F0F8FF;
+    border: 2px solid gray;
+    width: 15em;
+    height: 5em;
+}
+
+button.preview {
+    margin-bottom: 0.5em;
+}

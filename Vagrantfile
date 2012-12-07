@@ -15,16 +15,18 @@ Vagrant::Config.run do |config|
     # Enable provisioning with chef solo, specifying a cookbooks path (relative
     # to this Vagrantfile), and adding some recipes and/or roles.
     django_config.vm.provision :chef_solo do |chef|
-      chef.cookbooks_path = "cookbooks"
-      chef.provisioning_path = "/tmp/vagrant-chef"
+      chef.cookbooks_path = "deploy/cookbooks"
       
+      # Run recipes
       chef.add_recipe "apt"
-      chef.add_recipe "webapp" # does most of the work
+      chef.add_recipe "appname::default" # does most of the work
 
-      # You may also specify custom JSON attributes:
+      # Load custom attributes defined in node.json file
       chef.json = { :mysql_password => "foo",
                     :python => { :version => 2.7},
-                    :projectname => "HOMELAB_homesurvey" # set this
+                    :project_name => "appname",
+                    :dbname => "appname",
+                    :project_name => "appname"
                   }
     end
   end

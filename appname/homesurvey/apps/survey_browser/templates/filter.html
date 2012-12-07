@@ -1,0 +1,71 @@
+{% extends "homesurvey_base.html" %}
+{% load staticfiles %}
+
+{% block head_title %}Home{% endblock %}
+
+{% block extra_style %}
+    {{ block.super }}
+    <link href="{% static "css/liteaccordion.css" %}" rel="stylesheet">
+    <link href="{% static "css/browser_filters.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<!-- main work area -->
+<div id="accordian-div">
+    <ol>
+        <li data-slide-name="groups">
+            <h2><span>Set Filter Groups</span></h2>
+            <div class="content-swipe-panel"></div>
+        </li>
+        <li data-slide-name="create">
+            <h2><span>Create Filters</span></h2>
+            <div class="content-swipe-panel"></div>
+        </li>
+        <li data-slide-name="create-meta">
+            <h2><span>Create Meta Filters</span></h2>
+            <div class="content-swipe-panel"></div>
+        </li>
+        <li data-slide-name="browse">
+            <h2><span>Browse Filters</span></h2>
+            <div class="content-swipe-panel"></div>
+        </li>
+    </ol>
+    <noscript>
+        <p>Please enable JavaScript to get the full experience.</p>
+    </noscript>
+</div>
+<div id="confirm-delete-modal" class="modal fade hide">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Confirm Delete</h3>
+  </div>
+  <div class="modal-body">
+    <p></p>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn cancel" data-dismiss="modal" aria-hidden="true">Cancel</a>
+    <a href="#" class="btn action btn-danger">Delete this filter and all those listed</a>
+  </div>
+</div>
+<div id="meta-filter-visualize" class="modal fade hide">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Meta Filter Representation</h3>
+  </div>
+  <div class="modal-body">
+    <p></p>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn cancel" data-dismiss="modal" aria-hidden="true">Close</a>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_script %}
+    {{ block.super }}
+    <!-- http://nicolahibbert.com/demo/liteAccordion/ -->
+    <script src="{{ STATIC_URL }}js/liteaccordion.jquery.min.js"></script>
+    <script src="{{ STATIC_URL }}js/jquery-ui-1.9.0.custom.min.js"></script>
+    <script src="{{ STATIC_URL }}js/multiselect_multidisplay.js"></script>
+    <script src="{{ STATIC_URL }}js/browser_filters.js"></script>
+{% endblock %}

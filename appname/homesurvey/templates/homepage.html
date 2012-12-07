@@ -1,0 +1,58 @@
+{% extends "homesurvey_base.html" %}
+{% load staticfiles %}
+
+{% block head_title %}Home{% endblock %}
+
+{% block body_class %}home{% endblock %}
+
+{% block body %}
+        <div class="hero-unit">
+        {% block banner %}
+            <h1>HOMELAB Homesurvey Browser</h1>
+            <p>
+                <b>Homesurvey Browser</b> is a <a href="http://djangoproject.com/" target="_blank">Django</a>
+                project for analysis of survey data.  This website allows researchers to pull 
+                in data from <a href="http://www.limesurvey.org/" target="_blank">LimeSurvey</a> and perform analysis 
+                by finding survey participants meeting certain qualifications, and then extract 
+                specific information for the selected participants.
+            </p>
+            <p>
+                <em>
+                    All of these features require a login.
+                </em>
+            </p>
+            
+            <h2>About Homelab</h2>
+            <p>
+                The Georgia Tech HomeLab provides an independent evaluation capability to measure the 
+                long-term effectiveness and suitability of home health and wellness products in real-life settings.
+            </p>
+            <p><a href="http://homelab.gtri.gatech.edu/home.php" class="btn primary large" target="_blank">Learn more &raquo;</a></p>
+        {% endblock %}
+        </div>
+        
+        <div class="row">
+            <div class="span4">
+            {% block column-1 %}
+                <h2>Find Participants</h2>
+                <p>Search the HOMELAB database for qualified participants for your study.  <a href="/browser/filter/#create">Create filters</a> to find participants based on their responses to a variety survey questions.  <a href="/browser/filter/#create-meta">Chain filters together</a> to perform complex searches for specific participant segments.  <a href="/browser/filter/#groups">Manage and organize</a> the filters with groups.</p>
+                <p><a class="btn" href="/browser/filter/#create">Go there &raquo;</a></p>
+            {% endblock %}
+            </div>
+            <div class="span4">
+            {% block column-2 %}
+                <h2>Export Data</h2>
+                <p>Export sections of survey data for further analysis.  Filters can narrow the result set, or results can be exported for the entire study population.</p>
+                <p><a class="btn" href="/browser/filter/#browse">View details &raquo;</a></p>
+            {% endblock %}
+            </div>
+            <div class="span4">
+            {% block column-3 %}
+                <h2>Stay organized</h2>
+                <p>Complex projects may result in a large number of filters and several simultaneous studies.  Use filter groups to stay organized.  Shift filters between groups to make sure you only have to worry about the data that is most pertinent to your current work.</p>
+                <p><a class="btn" href="/browser/filtergroup/manage/">Go there &raquo;</a></p>
+            {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

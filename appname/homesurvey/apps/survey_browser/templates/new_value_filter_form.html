@@ -1,0 +1,124 @@
+<div class="label-block">
+    <h3>Filtering on: <span class="sub-title">{{ option_sub_dict.short_name }}</span></h3>
+</div>
+<form id="new-filter-form" class="form-horizontal">
+    {% if option_sub_dict.filter %}
+  <input type="hidden" name="filter-id" value="{{ option_sub_dict.filter.id }}">
+    {% else %}
+  <input type="hidden" name="filter-id" value="null">
+    {% endif %}
+  <input type="hidden" name="filtertype-id" value="{{ option_sub_dict.filter_field }}">
+  <input type="hidden" name="filter-type" value="{{ option_sub_dict.type }}">
+  <div class="control-group">
+    <label class="control-label" for="inputName">Name</label>
+    <div class="controls">
+        {% if option_sub_dict.filter %}
+      <input type="text" id="inputName" value="{{ option_sub_dict.filter.name }}">
+        {% else %}
+      <input type="text" id="inputName" placeholder="Filter A">
+        {% endif %}
+      <span class="help-inline hidden empty">Name must be defined</span>
+      <span class="help-inline hidden toolong">Name must be less than 100 characters</span>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="inputDescription">Description</label>
+    <div class="controls">
+        {% if option_sub_dict.filter %}
+      <textarea id="inputDescription" rows="3">{{ option_sub_dict.filter.description }}</textarea>
+        {% else %}
+      <textarea id="inputDescription" rows="3"></textarea>
+        {% endif %}
+    </div>
+  </div>
+  
+  {% if option_sub_dict.type == "ratio" or option_sub_dict.type == "ordinal" or option_sub_dict.type == "boolean" or option_sub_dict.type == "text" %}
+  <div class="control-group">
+    <label class="control-label" for="inputFilterOperator">Filter Operator</label>
+    <div class="controls">
+      <select id="inputFilterOperator">
+          {% if option_sub_dict.type == "ratio" or option_sub_dict.type == "ordinal" %}
+          <option value="lt">&lt</option>
+          <option value="gt">&gt</option>
+          <option value="lte">&lt=</option>
+          <option value="gte">&gt=</option>
+          <option value="eq">==</option>
+          <option value="neq">!=</option>
+          {% endif %}
+          {% if option_sub_dict.type == "boolean" %}
+          <option value="eq">==</option>
+          <option value="neq">!=</option>
+          {% endif %}
+          {% if option_sub_dict.type == "text" %}
+          <option value="contains">Contains</option>
+          <option value="not contains">Does not contain</option>
+          <option value="is empty">Is empty</option>
+          <option value="is not empty">Is not empty</option>
+          {% endif %}
+      </select>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="inputValue">Value</label>
+    <div class="controls">
+      {% if option_sub_dict.type == "ratio" or option_sub_dict.type == "ordinal" %}
+      <input type="text" id="inputValue" placeholder="0">
+      {% endif %}
+      {% if option_sub_dict.type == "boolean" %}
+      <select id="inputValue">
+          <option value="true">True</option>
+          <option value="false">False</option>
+      </select>
+      {% endif %}
+      {% if option_sub_dict.type == "text" %}
+      <input type="text" id="inputValue" placeholder="tylenol">
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if option_sub_dict.type == "multi_select" or option_sub_dict.type == "single_select" %}
+  <div class="control-group">
+    <label class="control-label" for="inputFilterOperator">Filter Operator</label>
+    <div class="controls">
+      <select id="inputFilterOperator">
+          {% if option_sub_dict.type == "multi_select" %}
+          <option value="any in">any in</option>
+          <option value="any not in">any not in</option>
+          <option value="all in">all in</option>
+          <option value="all not in">all not in</option>
+          {% endif %}
+          {% if option_sub_dict.type == "single_select" %}
+          <option value="any in">in</option>
+          <option value="any not in">not in</option>
+          {% endif %}
+      </select>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">Options</label>
+    <div class="controls optionSelect"></div>
+  </div>
+  {% endif %}
+  
+  <div class="control-group">
+    <div class="controls">
+      <p><em></em></p>
+      <br/>
+      <button class="btn btn-primary save">Create</button>
+      <button class="btn saveas hidden">Copy</button>
+      <button class="btn cancel">Close</button>
+      <button class="btn btn-danger hidden">Delete</button>
+    </div>
+  </div>
+  <div class="control-group">
+    <div class="controls">
+      <button class="btn btn-info preview disabled" type="button" title="Save the filter first to preview">Preview Selected IDs</button>
+      <br/>
+      <textarea class="idPreview" rows="3" disabled></textarea>
+    </div>
+  </div>
+  
+
+  
+</form>

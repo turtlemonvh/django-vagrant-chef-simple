@@ -1,0 +1,44 @@
+{% extends "site_base.html" %}
+{% load staticfiles %}
+
+{% block extra_style %}
+        {{ block.super }}
+        <link href="{% static "css/homesurvey.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block nav %}
+    <ul class="nav pull-right" role="navigation">
+        <li class="dropdown" id="actionmenu">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Applications<b class="caret"></b></a>
+            <ul class="nav-pills dropdown-menu" role="menu">
+                <li><a href="/browser/filter/#create">Find Participants</a></li>
+                <li><a href="/browser/filter/#browse">Get Data for Participants</a></li>
+                <li><a href="/browser/filtergroup/manage/">Manage Filter Groups</a></li>
+            </ul>
+        </li>
+        <li class="dropdown" id="viewmenu">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Admin<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li><a href="/browser/update/">Update Database from LimeSurvey</a></li>
+                <li><a href="/browser/test/">List Project Database Tables</a></li>
+                <li><a href="/browser/test_import/">Test LimeSurvey Database Connection and Import Functions</a></li>
+                <li><a href="/browser/initialize_database/">Initialize Survey Answer Options or Display</a></li>
+            </ul>
+        </li>
+        <li class="dropdown" id="accountmenu">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Account<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                {% if not request.user.is_authenticated %}
+                <li><a href="/accounts/login/">Login</a></li>
+                {% else %}
+                <li><a href="/accounts/logout/">Logout</a></li>
+                {% endif %}
+            </ul>
+        </li>
+    </ul>
+{% endblock %}
+{% block extra_script %}
+<script>
+
+</script>
+{% endblock %}

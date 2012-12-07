@@ -1,0 +1,28 @@
+<table class="table table-striped table-bordered table-condensed">
+    <tr>
+        <th>#</th>
+        <th>Participant ID</th>
+        <th>Contact Dates</th>
+        <th>Available Data</th>
+    </tr>
+{% for p in participants %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>
+            {{ p.pid }}
+        </td>
+        <td>
+        {% for d in p.contact_dates %}
+            {% if forloop.last %}
+                {{ d|date:"n/j/Y"}}
+            {% else %}
+                {{ d|date:"n/j/Y"}},
+            {% endif %}
+        {% endfor %}
+        </td>
+        <td>
+            {{ p.available_data }}
+        </td>
+    </tr>
+{% endfor %}
+</table>

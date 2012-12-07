@@ -1,0 +1,231 @@
+{% extends "homesurvey_base.html" %}
+
+{% block extra_style %}
+        {{ block.super }}
+        <style>
+            .group {
+                float: left;
+                width:45%;
+                margin-right: 20px;
+                position: relative;
+            }
+            
+            .group-table {
+                float: left;
+                width: 45%;
+                margin-right: 20px;
+                margin-bottom: 10px;
+                height: 700px;
+                position: relative;
+            }
+
+            .group-table.src {
+                clear: left;
+            }
+                        
+            .group-table > div > div {
+                max-height: 600px;
+                overflow: auto;
+                margin-bottom: 10px;
+            }
+            
+            h3 > em {
+                font-size: 0.7em;
+            }
+            
+            #update-results {
+                clear: left;
+            }
+            
+            img.centered-absolute {
+                position: absolute;
+                top: 10%;
+                right: 50%;
+            }
+        </style>
+{% endblock %}
+
+{% block body %}
+
+<div class="group browser">
+    <form class="form-horizontal">
+        <div class="control-group">
+            <label class="control-label" for="src-group">Source Group</label>
+            <div class="controls">
+                <select id="src-group">
+                {% for g in groups %}
+                    <option value="{{ g.id }}">{{ g.name }}</option>
+                {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <button id="src-action" class="btn btn-primary">Copy all selected filters to target group</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="group manager">
+    <form class="form-horizontal">
+        <div class="control-group">
+            <label class="control-label" for="tgt-group">Target Group</label>
+            <div class="controls">
+                <select id="tgt-group">
+                {% for g in groups %}
+                    {% if g.name != "DEFAULT" %}
+                    <option value="{{ g.id }}">{{ g.name }}</option>
+                    {% endif %}
+                {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <button id="tgt-action" class="btn btn-primary">Delete all selected filters from target group</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="src group-table">
+    <img class="hidden centered-absolute" src="/site_media/static/img/ajax-loader.gif">
+    <div></div>
+</div>
+<div class="tgt group-table">
+    <img class="hidden centered-absolute" src="/site_media/static/img/ajax-loader.gif">
+    <div></div>
+</div>
+
+
+{% endblock body %}
+
+{% block extra_script %}
+<script>
+$(document).ready(function(){
+    // Setup page
+    loadGroupTable("src");
+    loadGroupTable("tgt");
+    
+    /*
+     * @param side = src or tgt
+     */
+    function loadGroupTable(side){
+        var group_id = parseInt($("#" + side + "-group").find(":selected").val())
+        
+        // Don't bother loading if NaN
+        if (group_id){
+            $.get("/browser/filtergroup/filtertable/", {'group-id':group_id}, function(d){
+                $("." + side + ".group-table > div").html(d);
+            })            
+        }
+    }
+    
+    $("div.group form").on("change", "select", function(){
+        console.log(String(this.id).split("-")[0])
+        
+        loadGroupTable(String(this.id).split("-")[0])
+    })
+    
+    
+    
+    
+    $("#src-action").click(function(event){
+        event.preventDefault();
+        if ($(".group.browser .controls button").hasClass("disabled")){
+            return false;
+        }
+        
+        // grap an object of objects: {'filter-id': 1, 'filter-type': 'meta'}
+        var filters_to_add = _.map($(".src.group-table :checked"),function(v,k){ return {'filter-id': $(v).attr("filter-id"), 'filter-type': $(v).attr("filter-type")};})
+        var destination_group_id = parseInt($("#tgt-group").find(":selected").val());
+
+        // Add a loading gif and set button to loading state
+        $(".tgt.group-table img").removeClass("hidden");
+        $(".group.browser .controls button").addClass("disabled");
+        $(".group.browser .controls button").html("Copying selected filters...");        
+
+        var server_data = {
+            'filters': JSON.stringify(filters_to_add),
+            'group-id': destination_group_id
+        }
+
+        $.ajax({
+            url: "/browser/filter/actions/addfilterstogroup/",
+            type: "POST",
+            contentType: 'application/json',
+            data: server_data,
+            success: function(d){
+                $(".tgt.group-table > div").html(d);                
+                $(".tgt.group-table img").addClass("hidden");
+                $(".group.browser .controls button").removeClass("disabled");
+                $(".group.browser .controls button").html("Copy all selected filters to target group"); 
+            },
+            error: function(){
+                alert("Something went wrong!  Please re-load the page and try again.")
+            },
+            dataType: 'html'
+        })
+    })
+
+    $("#tgt-action").click(function(event){
+        event.preventDefault();
+        if ($(".group.manager .controls button").hasClass("disabled")){
+            return false;
+        }
+        
+        // grap an object of objects: {'filter-id': 1, 'filter-type': 'meta'}
+        var filters_to_delete = _.map($(".tgt.group-table :checked"),function(v,k){ return {'filter-id': $(v).attr("filter-id"), 'filter-type': $(v).attr("filter-type")};})
+        var tgt_group_id = parseInt($("#tgt-group").find(":selected").val());
+        var src_group_id = parseInt($("#src-group").find(":selected").val());
+
+        // Add a loading gif and set button to loading state
+        $(".tgt.group-table img").removeClass("hidden");
+        $(".group.manager .controls button").addClass("disabled");
+        $(".group.manager .controls button").html("Deleting selected filters...");        
+
+        var server_data = {
+            'filters': JSON.stringify(filters_to_delete),
+            'group-id': tgt_group_id
+        }
+
+        $.ajax({
+            url: "/browser/filter/actions/removefiltersfromgroup/",
+            type: "POST",
+            contentType: 'application/json',
+            data: server_data,
+            success: function(d){
+                $(".tgt.group-table > div").html(d);
+                if (src_group_id == tgt_group_id){
+                    $(".src.group-table > div").html(d);
+                }
+                $(".tgt.group-table img").addClass("hidden");
+                $(".group.manager .controls button").removeClass("disabled");
+                $(".group.manager .controls button").html("Delete all selected filters from target group"); 
+            },
+            error: function(){
+                alert("Something went wrong!  Please re-load the page and try again.")
+            },
+            dataType: 'html'
+        })
+    })
+    
+    /*
+     * Event handlers for easy handling of selecting participants to add
+     */
+    $(".group-table").on('click', ".check-all", function(){
+        $.each($(this).parent().find("input:checkbox"), function(){ this.checked = true;})
+    })
+    
+    $(".group-table").on('click', ".uncheck-all", function(){
+        $.each($(this).parent().find("input:checkbox"), function(){ this.checked = false;})
+    })
+        
+    $(".group-table").on('click', ".reverse-checked", function(){
+        $.each($(this).parent().find("input:checkbox"), function(){ this.checked = !this.checked;})
+    })
+    
+})
+</script>
+{% endblock %}

@@ -1,0 +1,24 @@
+<h3>{{ group.name }}: <em>{{ group.description }}</em></h3>
+<div>
+    <table class="table table-striped table-bordered table-condensed">
+        <tr>
+            <th>#</th>
+            <th>Filter Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Select</th>
+        </tr>
+    {% for f in filters %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ f.name }}</td>
+            <td>{{ f.type }}</td>
+            <td>{{ f.description }}</td>
+            <td><input filter-id="{{ f.id }}" filter-type="{{ f.type }}" type="checkbox"/></td>
+        </tr>
+    {% endfor %}
+    </table>
+</div>
+<a class="btn check-all">Check All</a>
+<a class="btn uncheck-all">Un-Check All</a>
+<a class="btn reverse-checked">Reverse Checked</a>

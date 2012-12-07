@@ -1,0 +1,309 @@
+/*
+ * TEST
+ */
+
+div.container.main-content {
+    margin-bottom: -60px;
+}
+
+#accordian-div li div.content-swipe-panel {
+    overflow: auto;
+}
+#accordian-div {
+    border: 2px solid black;
+}
+
+li.slide > h2 {
+    border-top: 1px solid white;
+}
+
+.options-tree li.filter-option-category:hover {
+    cursor: pointer;
+}
+
+#options-list .options-tree {
+    font-size: 80%;
+}
+
+.sub-title {
+    font-size: 0.75em;
+    font-style: italic;
+}
+
+.filter {
+    font-size: 80%;
+    overflow: hidden;
+    border:2px solid black;
+}
+
+.filter:hover {
+    cursor: pointer;
+    border-style: dashed;
+}
+
+div.filter > span {
+    padding: 3px;
+}
+
+div.filter > p {
+    padding: 3px;
+    font-style: italic;
+}
+
+.display-box .filter {
+    height: 80px;
+    width: 200px;
+    float: left;
+    clear: none;
+    margin: 10px;    
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.display-list .filter {
+    height: 50px;
+    width: 300px;
+    margin: 2px;
+    float: left;
+    clear: left;
+}
+
+.filter .filter-tag-title {
+    font-weight:bold;
+    color: red;
+}
+
+.filter.meta .filter-tag-title {
+    color: blue;
+}
+
+.filter.meta > i.icon-info-sign {
+    float: right;
+}
+
+div.ui-drop-dropped[filter-type=value] span.filter-tag-title{
+    color: red;
+}
+
+div.ui-drop-dropped[filter-type=meta] span.filter-tag-title{
+    color: blue;
+}
+
+.display-box {
+    clear: left;
+}
+
+.top-section div.main-block {
+    float:left;
+    min-height: 400px;
+    margin-left: 2px;
+    margin-bottom: 2px;
+    padding: 5px;
+    margin: 2px;
+    margin-bottom: -1000px; padding-bottom: 1000px;
+}
+
+.top-section div.main-block:first-child {
+    min-width: 25%;
+    max-width: 35%;
+}
+
+.top-section div.main-block:nth-child(2) {
+    clear:right;
+    min-width: 60%;
+    max-width: 65%;
+    border-left: 1px solid black;
+    /* background-color: gray; */
+}
+
+.top-section {
+    overflow: hidden;
+}
+
+.full-section {
+    clear:both;
+    min-height: 300px;
+    width: 95%;
+    margin: 10px;
+}
+
+.full-section h2, .full-section a {
+    display: block;
+    float:left;
+}
+
+#edit-filter-display, #options-list {
+    position: relative;
+}
+
+img.centered-absolute {
+    position: absolute;
+    top: 10%;
+    right: 50%;
+}
+
+/* Greyed out and cenetered and large */
+div.centered-info {
+    font-size: 1em;
+    font-style: italic;
+    margin-left: auto;
+    margin-right: auto;
+    width: 30%;
+    margin-top: 20%;
+    border: 1px dashed black;
+    padding: 0.5em;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+
+/*
+ * Need more classes to override boostrap css
+ */
+.controls .help-inline.hidden {
+    display: none;
+}
+
+div.idPreview {
+    background-color: #F0F8FF;
+    border: 2px solid gray;
+    width: 15em;
+    height: 5em;
+}
+
+button.preview {
+    margin-bottom: 0.5em;
+}
+
+/*
+ * Meta filter visualization css
+ */
+#meta-filter-visualize > .modal-body > p div {
+    border: 3px solid black;
+    margin: 0.5em;
+    float: left;
+}
+
+#meta-filter-visualize > .modal-body > p div:nth-child(3) {
+    clear: left;
+}
+
+#meta-filter-visualize > .modal-body > p div.meta {
+    border-color: blue;
+}
+
+#meta-filter-visualize > .modal-body > p div.value {
+    border-color: red;
+}
+
+#meta-filter-visualize > .modal-body > p span {
+    float: left;
+    clear: both;
+}
+
+#meta-filter-visualize > .modal-body > p span.name {
+    font-weight:bold;
+}
+
+#meta-filter-visualize > .modal-body > p span.description {
+    font-style: italic;
+}
+
+/*
+ * Group pane css
+ */
+#groups-list div.group-options {
+    border: 2px solid gray;
+    min-height: 500px;
+    max-height: 600px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: 300px;
+}
+
+#groups-list {
+    margin-left: 10px;
+}
+
+.group-panel  div.group {
+    border: 2px solid black;
+    margin: 2px;
+    padding: 5px;
+    float: left;
+    width: 265px;
+}
+
+#groups-list div.group {
+    clear: right;
+}
+
+.group-panel  div.group > span:not(.badge) {
+    float: left;
+    clear: left;
+    margin: 2px;
+    padding: 5px;
+}
+
+.group-panel  div.group > span.badge {
+    float: right;
+}
+
+.group-panel  div.group > span.name {
+    font-weight: bold;
+}
+
+.group-panel  div.group > span.description {
+    font-style: italic;
+}
+
+#edit-group-display div.filters {
+    margin-left: 10px;
+}
+
+#edit-group-display div.droppable {
+    border: 1px solid black;
+    height: 300px;
+    overflow-y: scroll;
+}
+
+/*
+ * DEFAULT cannot be removed
+ */
+#groups-list div.group-options  div.group.default > span.badge-important {
+    display: none;
+}
+
+#add-group-form {
+    border: 1px solid black;
+    width: 280px;
+    padding: 10px;
+}
+
+/*
+ * DEFAULT filters are not editable and cannot be removed from assignment options
+ */
+.group-panel .assign div.group.default > span.badge-important {
+    display: none;
+}
+
+.group-panel .droppable div.group > span.badge-warning {
+    display: none;
+}
+
+.group-panel  div.group.default > span.badge-warning {
+    display: none;
+}
+
+.group-panel  div.group > span.badge-important {
+    cursor: pointer;
+}
+
+.group-panel  div.group > span.badge-warning {
+    cursor: pointer;
+}

@@ -1,0 +1,100 @@
+{% extends "homesurvey_base.html" %}
+
+{% block body %}
+
+<h1>Message</h1>
+{{ test }}
+
+<h1>Questions({{ question_count }})</h1>
+<table class="table table-striped table-bordered table-condensed">
+	<tr>
+	    <th>#</th>
+		<th>table</th>
+		<th>field</th>
+		<th>option</th>
+	</tr>
+{% for q in questions %}
+	<tr>
+	    <td>{{ forloop.counter }}</td>
+		<td>{{ q.table }}</td>
+		<td>{{ q.field }}</td>
+		<td>{{ q.option }}</td>
+	</tr>
+{% endfor %}
+</table>
+
+<h1>Answers({{ answer_count }})</h1>
+<table class="table table-striped table-bordered table-condensed">
+	<tr>
+	    <th>#</th>
+		<th>table</th>
+		<th>field</th>
+		<th>option</th>
+	</tr>
+{% for a in answers %}
+	<tr>
+	    <td>{{ forloop.counter }}</td>
+		<td>{{ a.table }}</td>
+		<td>{{ a.field }}</td>
+		<td>{{ a.option }}</td>
+	</tr>
+{% endfor %}
+</table>
+
+<h1>IADL Options({{ IADL_option_count }})</h1>
+<table class="table table-striped table-bordered table-condensed">
+	<tr>
+	    <th>#</th>
+		<th>option</th>
+		<th>order</th>
+		<th>score</th>
+	</tr>
+{% for o in IADL_options %}
+	<tr>
+	    <td>{{ forloop.counter }}</td>
+		<td>{{ o.option__option }}</td>
+		<td>{{ o.order }}</td>
+		<td>{{ o.score }}</td>
+	</tr>
+{% endfor %}
+</table>
+
+<h1>SPMSQ Questions({{ SPMSQ_question_count }})</h1>
+<table class="table table-striped table-bordered table-condensed">
+    <tr>
+        <th>#</th>
+        <th>question</th>
+        <th>correct</th>
+    </tr>
+{% for o in SPMSQ_questions %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ o.question__option }}</td>
+        <td>{{ o.correct }}</td>
+    </tr>
+{% endfor %}
+</table>
+
+<h1>Scale Question and Options({{ sqo_count }})</h1>
+<table class="table table-striped table-bordered table-condensed">
+	<tr>
+	    <th>#</th>
+		<th>question</th>
+		<th>option</th>
+		<th>order</th>
+	</tr>
+{% with sqos as tmp_qs %}
+	{% for o in sqos %}
+		<tr>
+		    <td>{{ forloop.counter }}</td>
+			<td>{{ o.question__option }}</td>
+			<td>{{ o.option__option }}</td>
+			<td>{{ o.order }}</td>
+		</tr>
+	{% endfor %}
+{% endwith %}
+</table>
+
+
+
+{% endblock body %}

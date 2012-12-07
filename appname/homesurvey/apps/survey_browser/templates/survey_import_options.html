@@ -1,0 +1,24 @@
+<div class="survey-import-options">
+    <h3>{{ k }}</h3>
+    <div>
+        <table class="table table-striped table-bordered table-condensed">
+            <tr>
+                <th>#</th>
+                <th>Token</th>
+                <th>Date</th>
+                <th>Add?</th>
+            </tr>
+        {% for v in token_rows %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ v.token }}</td>
+                <td>{{ v.date }}</td>
+                <td><input token="{{ v.token }}" type="checkbox"/></td>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+    <a class="btn check-all">Check All</a>
+    <a class="btn uncheck-all">Un-Check All</a>
+    <a class="btn reverse-checked">Reverse Checked</a>
+</div>

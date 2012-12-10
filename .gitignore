@@ -3,3 +3,4 @@
 warn*.txt
 /appname/*
 /appname
+.vagrant

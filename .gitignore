@@ -1,6 +1,8 @@
 *.pyc
 *.log
 warn*.txt
-/build/*
-/dist/*
 /appname/*
+/appname
+.vagrant
+/docs/private
+/docs/private/*

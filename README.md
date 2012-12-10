@@ -1,3 +1,4 @@
+
 django-vagrant-chef-simple
 ==========================
 

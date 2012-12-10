@@ -13,7 +13,7 @@ Dependencies
 
 Chef cookbooks included
 ---------------
-These are directly cloned into the project instead of included as sub-modules.  That may change later.
+These are directly cloned into the project instead of included as sub-modules, mostly because of [this suggestion] [9] for chef-solo users.
 
   - [apache2] [apache2]
   - [apt] [apt]
@@ -28,7 +28,7 @@ These are directly cloned into the project instead of included as sub-modules.  
 Basic Use
 ---------------
   
-1. Start by cloning your django project into the "appname" folder:
+1. Start by cloning your django project into the "appname" folder ([how to][7])
 
         cd django-vagrant-chef-simple
         git clone /path/to/your/project appname
@@ -53,6 +53,8 @@ Basic Use
 1. When finished, destroy box (Windows command console)
 
         vagrant destroy
+
+More commands specific to dealing with Vagrant boxes can be in [the Vagrant tutorial] [8].
 
 Setting up Fabric
 ---------------
@@ -79,6 +81,9 @@ Using Fabric requires installation of the pycrypto modules.  These are compiled 
 Tips
 ---------------
 * Additional cookbooks can be found [here] [5]
+* Try using a different distro if you experience problems when adding a recipe to this project
+ * For me, the mysql recipe would not install correctly with lucid64, but worked fine with precise32
+ * More boxes can be found [here][6]
     
   [0]: https://github.com/honza/django-chef
   [cookbooks]: https://github.com/opscode-cookbooks/
@@ -100,3 +105,7 @@ Tips
   [3]: http://localhost:7001/
   [4]: http://localhost:8070/
   [5]: https://github.com/opscode-cookbooks/
+  [6]: https://github.com/mitchellh/vagrant/wiki/Available-Vagrant-Boxes
+  [7]: http://stackoverflow.com/questions/651038/how-do-you-clone-a-git-repository-into-a-specific-folder
+  [8]: http://vagrantup.com/v1/docs/getting-started/teardown.html
+  [9]: http://stackoverflow.com/questions/8941034/provisioning-vagrant-w-chef

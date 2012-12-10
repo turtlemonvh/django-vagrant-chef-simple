@@ -19,13 +19,11 @@ env.key_filename = ['H:\.ssh\id_rsa'] # doesn't seem to make a difference right 
 env.hosts = ['127.0.0.1']
 env.port = '2222'
 
-appname = "HOMELAB_homesurvey"
-
 def hello():
     print("Hello world!")
     
 def list_project_dir():
-    code_dir = "/vagrant/%s" %(appname)
+    code_dir = "/vagrant/appname"
     with cd(code_dir):
         run("ls -lah")
 

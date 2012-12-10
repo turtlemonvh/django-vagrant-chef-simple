@@ -8,6 +8,22 @@ Dependencies
 
   - [VirtualBox] [1]
   - [Vagrant] [2]
+  - [Fabric] [fabric] - see below for installation instructions on Windows
+
+
+Chef cookbooks included
+---------------
+These are directly cloned into the project instead of included as sub-modules.  That may change later.
+
+  - [apache2] [apache2]
+  - [apt] [apt]
+  - [build-essential] [build-essential]
+  - [git] [git]
+  - [vim] [vim]
+  - [python] [python]
+  - [mysql] [mysql]
+  - [openssl] [openssl]
+
 
 Basic Use
 ---------------
@@ -30,9 +46,9 @@ Basic Use
         cd /vagrant/appname
         
 1. Start django test server:
-    * You should see your site [here] [3] and a blank apache page [here] [4]
     
-            python manage.py runserver [::]:8000
+        python manage.py runserver [::]:8000
+    * You should see your site [here] [3] and a blank apache page [here] [4]
 
 1. When finished, destroy box (Windows command console)
 
@@ -43,13 +59,13 @@ Setting up Fabric
 
 [Fabric] [fabric] is a python module that allows you to execute commands remotely on multiple remote locations simultaneously, simplifying server administration.
 
-Using Fabric requires installation of the pycrypto modules.  These are compiled C modules, so the easiest way to get them working for Windows is to download the exe directly and install this into your virtual_env using easy_install.
+Using Fabric requires installation of the pycrypto modules.  These are compiled C modules, so the easiest way to get them working for Windows is to download the exe directly and install this into your virtual\_env using easy\_install.
 
 1. Download the latest exe of pycrypto [here] [pycrypto]
 
-    * make sure to use the 32 bit version if using 32 bit python, even if you're running 64 bit Windows
+ * make sure to use the 32 bit version if using 32 bit python, even if you're running 64 bit Windows
 
-1. Install (make sure you activated the correct virtualenv)
+1. Install (make sure you activated the correct virtual\_env)
 
         easy_install pycrypto-2.6.win32-py3.3.exe    
     
@@ -69,6 +85,16 @@ Tips
   [pycrypto]: http://www.voidspace.org.uk/python/modules.shtml#pycrypto
   [fabric]: http://docs.fabfile.org/en/1.5/index.html
   [fabric_tutorial]: http://docs.fabfile.org/en/1.5/tutorial.html
+
+  [apache2]: [https://github.com/opscode-cookbooks/apache2.git]
+  [apt]: [https://github.com/opscode-cookbooks/apt.git]
+  [build-essential]: [https://github.com/opscode-cookbooks/build-essential.git]
+  [git]: [https://github.com/opscode-cookbooks/git.git]
+  [vim]: [https://github.com/opscode-cookbooks/vim.git]
+  [python]: [https://github.com/opscode-cookbooks/python.git]
+  [mysql]: [https://github.com/opscode-cookbooks/mysql.git]
+  [openssl]: [https://github.com/opscode-cookbooks/openssl.git]
+
   [1]: https://www.virtualbox.org/wiki/Downloads
   [2]: http://vagrantup.com/
   [3]: http://localhost:7001/

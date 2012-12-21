@@ -16,30 +16,44 @@ env.password = 'vagrant'
 env.key_filename = ['H:\.ssh\id_rsa'] # doesn't seem to make a difference right now
 
 # Hosts and default port
+# Get with command "vagrant ssh-config"
 env.hosts = ['127.0.0.1']
 env.port = '2222'
 
-def hello():
-    print("Hello world!")
+"""
+Configuation variables; change for your project
+"""
+code_dir = 'H:\django_vagrant_base\appname' # location of code on your computer
+vm_code_dir = "/vagrant/appname" # location of code in created vm
+projectname = "homesurvey" # name of your project, both folder and django name
+
     
 def list_project_dir():
-    code_dir = "/vagrant/appname"
-    with cd(code_dir):
+    with cd(vm_code_dir):
         run("ls -lah")
 
+def update_repo():
+    code_dir = code_dir
+    with cd(code_dir):
+        run("git pull")
+        run("touch app.wsgi")
+
+# Call post pull        
+def refresh_code():
+    with cd(vm_code_dir):
+        with cd(projectname):
+            run("rm -r site_media/")
+            run("python manage.py collectstatic --noinput")
+            run("sudo service apache2 restart")
+        
 def test_and_commit():
     with settings(warn_only=True):
-        result = local('./manage.py test homesurvey', capture=True)
+        result = local('./manage.py test %s' %(projectname), capture=True)
     if result.failed and not confirm("Tests failed. Continue anyway?"):
         abort("Aborting at user request.")
     else:
         local("git add -p && git commit")
  
-def update_hdrive():
-    code_dir = 'H:\django_vagrant_base\HOMELAB_homesurvey'
-    with cd(code_dir):
-        run("git pull")
-        run("touch app.wsgi")
         
 # Local tasks
 def clean():

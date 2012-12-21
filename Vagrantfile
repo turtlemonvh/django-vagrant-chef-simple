@@ -32,7 +32,9 @@ Vagrant::Config.run do |config|
                     :python => { :version => 2.7},
                     :project_name => "appname",
                     :dbname => "appname",
-                    :project_name => "appname"
+                    :app_name => "homesurvey",
+                    :error_log => "homelab-error",
+                    :access_log => "homelab-access"
                   }
     end
   end

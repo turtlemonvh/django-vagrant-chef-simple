@@ -87,6 +87,12 @@ execute "Migrate tasypie" do
     action :run
 end
 
+execute "Remove existing site_media folder" do
+    command "rm -r site_media/"
+    cwd "/vagrant/#{node[:project_name]}/#{node[:app_name]}"
+    action :run
+end
+
 execute "Collect staticfiles" do
     command "python manage.py collectstatic --noinput"
     cwd "/vagrant/#{node[:project_name]}/#{node[:app_name]}"
@@ -109,7 +115,7 @@ execute "Create symlink between site_media and srv folder" do
     command "sudo ln -s /vagrant/appname/homesurvey/site_media/ /var/www/site_media"
     action :run
 end
-
+            
 execute "restart mysql" do
     command "sudo service mysql restart"
 end

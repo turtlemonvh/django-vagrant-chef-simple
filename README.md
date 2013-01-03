@@ -3,6 +3,10 @@ django-vagrant-chef-simple
 
 This project provides a template for a simple configuration for setting up a development environment for django with vagrant and chef.  [Honza's django-chef][0] provided much of the code for starting this project.  Cookbooks are cloned directly from [opscode][cookbooks]. 
 
+After following the instructions below, you will have a simple bare-bones configuration for your project running.  This project uses apache2 with mod_wsgi.  Static files are served directly with apache.  This configuration may not be perfect for performance, but it is easy to understand and fairly easy to set up.
+
+Right now this project is only tested with the precise32 box provided on vagrant's website.  I plan to expand the project to work with other flavors of Ubuntu as well as CentOS and RedHat soon.
+
 Dependencies
 ---------------
 
@@ -33,22 +37,13 @@ Basic Use
         cd django-vagrant-chef-simple
         git clone /path/to/your/project appname
 
-1. Start vagrant box (Windows command console)
+1. Start vagrant box (Windows command console).  After executing this command you should see your site [here] [4]
 
         vagrant up
         
 1. ssh into the box; command below for cygwin on windows (password = vagrant)
 
         ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no vagrant@127.0.0.1 -p 2222
-
-1. Change into project directory:
-
-        cd /vagrant/appname
-        
-1. Start django test server:
-    
-        python manage.py runserver [::]:8000
-    * You should see your site [here] [3] and a blank apache page [here] [4]
 
 1. When finished, destroy box (Windows command console)
 
@@ -81,6 +76,10 @@ Using Fabric requires installation of the pycrypto modules.  These are compiled 
 Tips
 ---------------
 * Additional cookbooks can be found [here] [5]
+* To ssh into the box, use this command with cygwin on Windows.  Your project files will be found in the `/vagrant/appname` directory.
+
+        ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no vagrant@127.0.0.1 -p 2222
+
 * Try using a different distro if you experience problems when adding a recipe to this project
  * For me, the mysql recipe would not install correctly with lucid64, but worked fine with precise32
  * More boxes can be found [here][6]
@@ -91,14 +90,14 @@ Tips
   [fabric]: http://docs.fabfile.org/en/1.5/index.html
   [fabric_tutorial]: http://docs.fabfile.org/en/1.5/tutorial.html
 
-  [apache2]: [https://github.com/opscode-cookbooks/apache2.git]
-  [apt]: [https://github.com/opscode-cookbooks/apt.git]
-  [build-essential]: [https://github.com/opscode-cookbooks/build-essential.git]
-  [git]: [https://github.com/opscode-cookbooks/git.git]
-  [vim]: [https://github.com/opscode-cookbooks/vim.git]
-  [python]: [https://github.com/opscode-cookbooks/python.git]
-  [mysql]: [https://github.com/opscode-cookbooks/mysql.git]
-  [openssl]: [https://github.com/opscode-cookbooks/openssl.git]
+  [apache2]: https://github.com/opscode-cookbooks/apache2.git
+  [apt]: https://github.com/opscode-cookbooks/apt.git
+  [build-essential]: https://github.com/opscode-cookbooks/build-essential.git
+  [git]: https://github.com/opscode-cookbooks/git.git
+  [vim]: https://github.com/opscode-cookbooks/vim.git
+  [python]: https://github.com/opscode-cookbooks/python.git
+  [mysql]: https://github.com/opscode-cookbooks/mysql.git
+  [openssl]: https://github.com/opscode-cookbooks/openssl.git
 
   [1]: https://www.virtualbox.org/wiki/Downloads
   [2]: http://vagrantup.com/

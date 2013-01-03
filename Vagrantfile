@@ -33,6 +33,7 @@ Vagrant::Config.run do |config|
                     :project_name => "appname",
                     :dbname => "appname",
                     :app_name => "homesurvey",
+                    :app_app_name => "survey_browser",
                     :error_log => "homelab-error",
                     :access_log => "homelab-access"
                   }

@@ -35,14 +35,14 @@ execute "create log file directory" do
 end
 
 execute "create error log file" do
-    command "sudo touch /etc/apache2/logs/homelab-error.log"
-    creates "/etc/apache2/logs/homelab-error.log"
+    command "sudo touch /etc/apache2/logs/#{node[:error_log]}.log"
+    creates "/etc/apache2/logs/#{node[:error_log]}.log"
     action :run
 end
 
 execute "create access log file" do
-    command "sudo touch /etc/apache2/logs/homelab-access.log"
-    creates "/etc/apache2/logs/homelab-error.log"
+    command "sudo touch /etc/apache2/logs/#{node[:access_log]}.log"
+    creates "/etc/apache2/logs/#{node[:access_log]}.log"
     action :run
 end
 
@@ -77,7 +77,7 @@ end
 
 # Migrate applications using South
 execute "Migrate app" do
-    command "python manage.py migrate survey_browser"
+    command "python manage.py migrate #{node[:app_app_name]}"
     cwd "/vagrant/#{node[:project_name]}/#{node[:app_name]}"
     action :run
 end
@@ -99,7 +99,7 @@ execute "Collect staticfiles" do
     action :run
 end
 execute "Create symlink between site_media and srv folder" do
-    command "sudo ln -s /vagrant/appname/homesurvey/site_media/ /var/www/site_media"
+    command "sudo ln -s /vagrant/#{node[:project_name]}/#{node[:app_name]}/site_media/ /var/www/site_media"
     action :run
 end
 

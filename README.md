@@ -3,7 +3,7 @@ django-vagrant-chef-simple
 
 This project provides a template for a simple configuration for setting up a development environment for django with vagrant and chef.  [Honza's django-chef][0] provided much of the code for starting this project.  Cookbooks are cloned directly from [opscode][cookbooks]. 
 
-After following the instructions below, you will have a simple bare-bones configuration for your project running.  This project uses [apache2 with mod_wsgi][django_apache_modwsgi].  Static files are served directly with apache.  This configuration may not be perfect for performance, but it is easy to understand and fairly easy to set up.
+After following the instructions below, you will have a simple bare-bones configuration for your project running.  This project uses [apache2 with mod_wsgi][django_apache_modwsgi] and mysql as the database.  Static files are served directly with apache.  This configuration may not be perfect for performance, but it is easy to understand and fairly easy to set up.
 
 Right now this project is only tested with the precise32 box provided on vagrant's website.  I plan to expand the project to work with other flavors of Ubuntu as well as CentOS and RedHat soon.
 
@@ -32,14 +32,67 @@ These are directly cloned into the project instead of included as sub-modules, m
 Basic Use
 ---------------
   
-1. Start by cloning your django project into the "appname" folder ([how to][7])
+1. Start by cloning your django project a folder named "appname" in the main project directory ([how to][7]).
 
         cd django-vagrant-chef-simple
         git clone /path/to/your/project appname
 
-1. Start vagrant box (Windows command console).  After executing this command you should see your site [here] [4]
+   This project expects manage.py to live 1 directly __below__ `appname`.  Thus, the location from the top directory would be `django-vagrant-chef-simple/appname/myprojectname/manage.py`.
+
+1. Create a deployment specific requirements file called `prod_requirements.txt` and place in the `appname` directory.  This will be called via pip to install any python packages required for your project.  Mine looks like this:
+
+        Django==1.3.1
+        Pinax==0.9a2
+        South==0.7.6
+        django-appconf==0.5
+        django-compressor==1.0.1
+        django-debug-toolbar==0.8.5
+        django-extensions==0.9
+        django-staticfiles==1.1.2
+        django-tastypie==0.9.11
+        ipython==0.13
+        mimeparse==0.1.3
+        mysql-python==1.2.3
+        paramiko==1.9.0
+        pinax-theme-bootstrap==0.1.2
+        pycrypto==2.6
+
+1. Edit the main VagrantFile to change: 
+  * `appname` from `homesurvey` to the name of your project, e.g. `myprojectname`
+  * The `log` names from `homelab-*` to whatever you'd like
+  * The `password`s to whatever you'd like
+  * `app_app_name` to the name of an app that you want to migrate using South.  Tastypie will also be migrated if it exists.
+
+1. Create a fixture called `user_session.json` to load initial superuser data.  You can place this in any fixture directory in your project.  You can dump this out of your current installation by running the command:
+
+        python manage.py dumpdata --indent=2 auth.user
+
+1. Create another fixture called `loaded_options.json` to load any other initial data for your database.
+
+1. Create a file called `production_settings.py` at the same level as `manage.py`; use this to over-ride anythin in `settings.py` that you want changed in production.  For example, mine has the following:
+
+        DEBUG = False
+        TEMPLATE_DEBUG = DEBUG
+        
+        SERVE_MEDIA = DEBUG
+        
+        DATABASES = {
+            "default": {
+                "ENGINE": "django.db.backends.mysql", # Add "postgresql_psycopg2", "postgresql", "mysql", "sqlite3" or "oracle".
+                "NAME": "appname",                       # Or path to database file if using sqlite3.
+                "USER": "root",                             # Not used with sqlite3.
+                "PASSWORD": "iloverandompasswordsbutthiswilldo",                         # Not used with sqlite3.
+                "HOST": "",                             # Set to empty string for localhost. Not used with sqlite3.
+                "PORT": "3306",                             # Set to empty string for default. Not used with sqlite3.
+            }
+        }
+
+
+1. Start vagrant box (Windows command console).  
 
         vagrant up
+
+  After executing this command you should see your site [here] [4]
 
 1. When finished, destroy box (Windows command console)
 

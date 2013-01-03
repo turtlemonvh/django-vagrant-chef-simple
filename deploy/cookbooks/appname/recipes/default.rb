@@ -75,27 +75,31 @@ execute "Create superuser" do
     action :run
 end
 
+# Migrate applications using South
 execute "Migrate app" do
     command "python manage.py migrate survey_browser"
     cwd "/vagrant/#{node[:project_name]}/#{node[:app_name]}"
     action :run
 end
-
 execute "Migrate tasypie" do
     command "python manage.py migrate tastypie"
     cwd "/vagrant/#{node[:project_name]}/#{node[:app_name]}"
     action :run
 end
 
+# Load new site_media and setup to serve with apache
 execute "Remove existing site_media folder" do
     command "rm -r site_media/"
     cwd "/vagrant/#{node[:project_name]}/#{node[:app_name]}"
     action :run
 end
-
 execute "Collect staticfiles" do
     command "python manage.py collectstatic --noinput"
     cwd "/vagrant/#{node[:project_name]}/#{node[:app_name]}"
+    action :run
+end
+execute "Create symlink between site_media and srv folder" do
+    command "sudo ln -s /vagrant/appname/homesurvey/site_media/ /var/www/site_media"
     action :run
 end
 
@@ -111,11 +115,9 @@ execute "Create local django settings" do
     action :run
 end
 
-execute "Create symlink between site_media and srv folder" do
-    command "sudo ln -s /vagrant/appname/homesurvey/site_media/ /var/www/site_media"
-    action :run
-end
-            
 execute "restart mysql" do
     command "sudo service mysql restart"
+end
+execute "restart apache" do
+    command "sudo service apache2 restart"
 end

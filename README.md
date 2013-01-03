@@ -3,7 +3,7 @@ django-vagrant-chef-simple
 
 This project provides a template for a simple configuration for setting up a development environment for django with vagrant and chef.  [Honza's django-chef][0] provided much of the code for starting this project.  Cookbooks are cloned directly from [opscode][cookbooks]. 
 
-After following the instructions below, you will have a simple bare-bones configuration for your project running.  This project uses apache2 with mod_wsgi.  Static files are served directly with apache.  This configuration may not be perfect for performance, but it is easy to understand and fairly easy to set up.
+After following the instructions below, you will have a simple bare-bones configuration for your project running.  This project uses [apache2 with mod_wsgi][django_apache_modwsgi].  Static files are served directly with apache.  This configuration may not be perfect for performance, but it is easy to understand and fairly easy to set up.
 
 Right now this project is only tested with the precise32 box provided on vagrant's website.  I plan to expand the project to work with other flavors of Ubuntu as well as CentOS and RedHat soon.
 
@@ -40,10 +40,6 @@ Basic Use
 1. Start vagrant box (Windows command console).  After executing this command you should see your site [here] [4]
 
         vagrant up
-        
-1. ssh into the box; command below for cygwin on windows (password = vagrant)
-
-        ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no vagrant@127.0.0.1 -p 2222
 
 1. When finished, destroy box (Windows command console)
 
@@ -84,7 +80,6 @@ Tips
  * For me, the mysql recipe would not install correctly with lucid64, but worked fine with precise32
  * More boxes can be found [here][6]
     
-  [0]: https://github.com/honza/django-chef
   [cookbooks]: https://github.com/opscode-cookbooks/
   [pycrypto]: http://www.voidspace.org.uk/python/modules.shtml#pycrypto
   [fabric]: http://docs.fabfile.org/en/1.5/index.html
@@ -98,10 +93,11 @@ Tips
   [python]: https://github.com/opscode-cookbooks/python.git
   [mysql]: https://github.com/opscode-cookbooks/mysql.git
   [openssl]: https://github.com/opscode-cookbooks/openssl.git
-
+  [django_apache_modwsgi]: https://docs.djangoproject.com/en/1.4/howto/deployment/wsgi/modwsgi/
+  
+  [0]: https://github.com/honza/django-chef
   [1]: https://www.virtualbox.org/wiki/Downloads
   [2]: http://vagrantup.com/
-  [3]: http://localhost:7001/
   [4]: http://localhost:8070/
   [5]: https://github.com/opscode-cookbooks/
   [6]: https://github.com/mitchellh/vagrant/wiki/Available-Vagrant-Boxes

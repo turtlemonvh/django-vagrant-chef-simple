@@ -65,19 +65,18 @@ node[:django_settings][:fixtures].each do |fixture|
 end
 
 # Load new site_media and setup to serve with apache
-execute "Remove existing site_media folder" do
-    command "rm -r site_media/"
-    cwd "/vagrant/#{node[:project_folder_name]}/#{node[:django_settings][:project_name]}"
-    action :run
+directory "/vagrant/#{node[:project_folder_name]}/#{node[:django_settings][:project_name]}/site_media" do
+  recursive true
+  action :delete
+  not_if do ! File.directory?("/vagrant/#{node[:project_folder_name]}/#{node[:django_settings][:project_name]}/site_media") end
 end
 execute "Collect staticfiles" do
     command "python manage.py collectstatic --noinput"
     cwd "/vagrant/#{node[:project_folder_name]}/#{node[:django_settings][:project_name]}"
     action :run
 end
-execute "Create symlink between site_media and srv folder" do
-    command "sudo ln -s /vagrant/#{node[:project_folder_name]}/#{node[:django_settings][:project_name]}/site_media/ /var/www/site_media"
-    action :run
+link "/var/www/site_media" do
+  to "/vagrant/#{node[:project_folder_name]}/#{node[:django_settings][:project_name]}/site_media/"
 end
 
 execute "Create local django settings" do

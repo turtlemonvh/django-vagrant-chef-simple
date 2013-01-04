@@ -46,7 +46,7 @@ Vagrant::Config.run do |config|
                                 :description => "Initialize Database"
                             }
                         ],
-                        :production_settings_file = "production_settings.py"
+                        :production_settings_file => "production_settings.py"
                     }
                   }
     end

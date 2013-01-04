@@ -16,7 +16,7 @@ include_recipe  "python"
 
 # Set up production requirements
 execute "install python packages" do
-    command "sudo pip install -r /vagrant/#{node[:project_name]}/prod_requirements.txt"
+    command "sudo pip install -r /vagrant/#{node[:project_folder_name]}/prod_requirements.txt"
 end
 
 execute "install build dependencies for mysqldb" do
@@ -30,88 +30,77 @@ execute "create-database" do
 end
 
 execute "create log file directory" do
-    command "sudo mkdir /etc/apache2/logs"
+    command "sudo mkdir #{node['apache']['log_dir']}"
     action :run
 end
 
 execute "create error log file" do
-    command "sudo touch /etc/apache2/logs/#{node[:error_log]}.log"
-    creates "/etc/apache2/logs/#{node[:error_log]}.log"
+    command "sudo touch #{node['apache']['log_dir']}/#{node[:error_log]}.log"
+    creates "#{node['apache']['log_dir']}/#{node[:error_log]}.log"
     action :run
 end
 
 execute "create access log file" do
-    command "sudo touch /etc/apache2/logs/#{node[:access_log]}.log"
-    creates "/etc/apache2/logs/#{node[:access_log]}.log"
+    command "sudo touch #{node['apache']['log_dir']}/#{node[:access_log]}.log"
+    creates "#{node['apache']['log_dir']}/#{node[:access_log]}.log"
     action :run
 end
 
-# Should probably do this through apache node properties instead
-execute "add line to config file" do
-    command "echo 'Include /etc/apache2/httpd.conf' >> /etc/apache2/apache2.conf"
-    action :run
-end
-
-# Should probably do this through apache node properties instead
-# This overwrites file created by apache2 module
-template "#{node['apache']['dir']}/httpd.conf" do
+# Creates new conf file in the mods available folder; all conf files here are included
+template "#{node['apache']['dir']}/mods-available/django_mod_wsgi.conf" do
   source "httpd.conf.erb"
   owner "root"
   group node['apache']['root_group']
   mode 00644
+  variables({
+    :logfiles => node[:apache_logfiles],
+    :server_name => node[:server_name]
+  })
 end
 
 execute "Sync db" do
     command "python manage.py syncdb --noinput"
-    cwd "/vagrant/#{node[:project_name]}/#{node[:app_name]}"
-    action :run
-end
-
-execute "Create superuser" do
-    # This must have been created with a dump of the admin acct and the most recent admin session
-    #> python manage.py dumpdata --indent=2 auth.user sessions.session
-    command "python manage.py loaddata user_session.json"
-    cwd "/vagrant/#{node[:project_name]}/#{node[:app_name]}"
+    cwd "/vagrant/#{node[:project_folder_name]}/#{node[:django_settings][:project_name]}"
     action :run
 end
 
 # Migrate applications using South
-execute "Migrate app" do
-    command "python manage.py migrate #{node[:app_app_name]}"
-    cwd "/vagrant/#{node[:project_name]}/#{node[:app_name]}"
-    action :run
+node[:django_settings][:south_apps].each do |app|
+    execute "Migrate #{app}" do
+        command "python manage.py migrate #{app}"
+        cwd "/vagrant/#{node[:project_folder_name]}/#{node[:django_settings][:project_name]}"
+        action :run
+    end
 end
-execute "Migrate tasypie" do
-    command "python manage.py migrate tastypie"
-    cwd "/vagrant/#{node[:project_name]}/#{node[:app_name]}"
-    action :run
+
+# Install fixtures
+node[:django_settings][:fixtures].each do |fixture|
+    execute "#{fixture[:description]}" do
+        command "python manage.py loaddata #{fixture[:name]}"
+        cwd "/vagrant/#{node[:project_folder_name]}/#{node[:django_settings][:project_name]}"
+        action :run
+    end
 end
 
 # Load new site_media and setup to serve with apache
 execute "Remove existing site_media folder" do
     command "rm -r site_media/"
-    cwd "/vagrant/#{node[:project_name]}/#{node[:app_name]}"
+    cwd "/vagrant/#{node[:project_folder_name]}/#{node[:django_settings][:project_name]}"
     action :run
 end
 execute "Collect staticfiles" do
     command "python manage.py collectstatic --noinput"
-    cwd "/vagrant/#{node[:project_name]}/#{node[:app_name]}"
+    cwd "/vagrant/#{node[:project_folder_name]}/#{node[:django_settings][:project_name]}"
     action :run
 end
 execute "Create symlink between site_media and srv folder" do
-    command "sudo ln -s /vagrant/#{node[:project_name]}/#{node[:app_name]}/site_media/ /var/www/site_media"
-    action :run
-end
-
-execute "Load database starter" do
-    command "python manage.py loaddata loaded_options.json"
-    cwd "/vagrant/#{node[:project_name]}/#{node[:app_name]}"
+    command "sudo ln -s /vagrant/#{node[:project_folder_name]}/#{node[:django_settings][:project_name]}/site_media/ /var/www/site_media"
     action :run
 end
 
 execute "Create local django settings" do
-    command "cp production_settings.py local_settings.py"
-    cwd "/vagrant/#{node[:project_name]}/#{node[:app_name]}"
+    command "cp #{node[:production_settings_file]} local_settings.py"
+    cwd "/vagrant/#{node[:project_folder_name]}/#{node[:django_settings][:project_name]}"
     action :run
 end
 

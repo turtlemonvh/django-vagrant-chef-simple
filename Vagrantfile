@@ -30,12 +30,36 @@ Vagrant::Config.run do |config|
                         "tunable" => { "innodb_adaptive_flushing" => "on"}
                     },
                     :python => { :version => 2.7},
-                    :project_name => "appname",
+                    :server_name => "precise32",
+                    :project_folder_name => "appname",
                     :dbname => "appname",
-                    :app_name => "onpoint",
-                    :app_app_name => "craigslist",
-                    :error_log => "django-error",
-                    :access_log => "django-access"
+                    :apache_logfiles => {
+                        {
+                            :name => "ErrorLog",
+                            :filename => "django-error",
+                            :note => ""
+                        },
+                        {
+                            :name => "CustomLog",
+                            :filename => "django-access",
+                            :note => "common"
+                        }
+                    },
+                    :django_settings => {
+                        :project_name => "onpoint",
+                        :south_apps => ["tastypie", "craigslist"],
+                        :fixtures => [
+                            {
+                                :name => "user_session.json",
+                                :description => "Load Superuser"
+                            }, 
+                            {
+                                :name => "loaded_options.json",
+                                :description => "Initialize Database"
+                            }
+                        ],
+                        :production_settings_file = "production_settings.py"
+                    }
                   }
     end
   end

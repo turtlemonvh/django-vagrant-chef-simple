@@ -33,18 +33,6 @@ Vagrant::Config.run do |config|
                     :server_name => "precise32",
                     :project_folder_name => "appname",
                     :dbname => "appname",
-                    :apache_logfiles => {
-                        {
-                            :name => "ErrorLog",
-                            :filename => "django-error",
-                            :note => ""
-                        },
-                        {
-                            :name => "CustomLog",
-                            :filename => "django-access",
-                            :note => "common"
-                        }
-                    },
                     :django_settings => {
                         :project_name => "onpoint",
                         :south_apps => ["tastypie", "craigslist"],

@@ -29,23 +29,6 @@ execute "create-database" do
     # command "mysql -p\"#{node['mysql']['server_root_password']}\" -e 'SHOW DATABASES;'"
 end
 
-execute "create log file directory" do
-    command "sudo mkdir #{node['apache']['log_dir']}"
-    action :run
-end
-
-execute "create error log file" do
-    command "sudo touch #{node['apache']['log_dir']}/#{node[:error_log]}.log"
-    creates "#{node['apache']['log_dir']}/#{node[:error_log]}.log"
-    action :run
-end
-
-execute "create access log file" do
-    command "sudo touch #{node['apache']['log_dir']}/#{node[:access_log]}.log"
-    creates "#{node['apache']['log_dir']}/#{node[:access_log]}.log"
-    action :run
-end
-
 # Creates new conf file in the mods available folder; all conf files here are included
 template "#{node['apache']['dir']}/mods-available/django_mod_wsgi.conf" do
   source "httpd.conf.erb"
@@ -53,7 +36,6 @@ template "#{node['apache']['dir']}/mods-available/django_mod_wsgi.conf" do
   group node['apache']['root_group']
   mode 00644
   variables({
-    :logfiles => node[:apache_logfiles],
     :server_name => node[:server_name]
   })
 end

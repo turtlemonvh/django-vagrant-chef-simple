@@ -131,7 +131,22 @@ Tips
 * Try using a different distro if you experience problems when adding a recipe to this project
  * For me, the mysql recipe would not install correctly with lucid64, but worked fine with precise32
  * More boxes can be found [here][6]
-    
+* Check apache cookbook attributes to see where logfiles are created and other similar details
+
+TODO
+---------------
+* Check compatability with other distros, esp. CentOS
+ * Boxes [here] (http://www.vagrantbox.es/)
+ * Brach to use either `yum` or `apt` as package manager as seen in [apache cookbook](https://github.com/turtlemonvh/django-vagrant-chef-simple/blob/master/deploy/cookbooks/apache2/recipes/default.rb)
+  * If yum, make sure epel is installed for RHEL derivatives
+* Refactor to use `attributes` folder to define default params for `appname` recipe
+* Refactor to define functions to hook into to make code re-use easier
+ * See [example from pip cookbook] (https://github.com/turtlemonvh/django-vagrant-chef-simple/blob/master/deploy/cookbooks/python/providers/pip.rb)
+* Change to [use pip2pi for installing pip packages] (http://stackoverflow.com/questions/12521552/installing-pip-packages-to-a-virtualenv-using-a-download-cache)
+ * useful when network is slow, or you don't have any access to internet
+* Get rid of hardcoding of `vagrant` directory in `appname` recipe
+* Document process for using chef without vagrant for installation on a "real" server
+ 
   [cookbooks]: https://github.com/opscode-cookbooks/
   [pycrypto]: http://www.voidspace.org.uk/python/modules.shtml#pycrypto
   [fabric]: http://docs.fabfile.org/en/1.5/index.html

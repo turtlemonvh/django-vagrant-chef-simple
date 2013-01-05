@@ -53,20 +53,19 @@ Basic Use
         ipython==0.13
         mimeparse==0.1.3
         mysql-python==1.2.3
-        paramiko==1.9.0
         pinax-theme-bootstrap==0.1.2
-        pycrypto==2.6
 
-1. Edit the main VagrantFile to change: 
-  * `appname` from `homesurvey` to the name of your project, e.g. `myprojectname`
-  * The `log` names from `homelab-*` to whatever you'd like
-  * The `password`s to whatever you'd like
-  * `app_app_name` to the name of an app that you want to migrate using South.  Tastypie will also be migrated if it exists.
+1. Edit the main VagrantFile under the "django_settings" variable to change: 
+  * `project_name` from `onpoint` to the name of your project, e.g. `myprojectname`
+  * `south_apps` to a list of the apps that you want to migrate using [South][south].
+  * `fixtures` to a list of the fixtures you want to be installed in your new database.  The `description` field is only used by vagrant to to display information about what data is being loaded.  
 
-1. Create a fixture called `user_session.json` to load initial superuser data.  You can place this in any fixture directory in your project.  You can dump this out of your current installation by running the command:
+1. We suggest you create a fixture called `user_session.json` to load initial superuser data.  You can place this in any fixture directory in your project.  You can dump this out of your current installation by running the command:
 
         python manage.py dumpdata --indent=2 auth.user
 
+  Delete all but the first entry from this file, which should be the superuser account you created when first running `manage.py syncdb`
+        
 1. Create another fixture called `loaded_options.json` to load any other initial data for your database.
 
 1. Create a file called `production_settings.py` at the same level as `manage.py`; use this to over-ride anythin in `settings.py` that you want changed in production.  For example, mine has the following:
@@ -86,7 +85,6 @@ Basic Use
                 "PORT": "3306",                             # Set to empty string for default. Not used with sqlite3.
             }
         }
-
 
 1. Start vagrant box (Windows command console).  
 
@@ -140,6 +138,7 @@ Tips
 
   [apache2]: https://github.com/opscode-cookbooks/apache2.git
   [apt]: https://github.com/opscode-cookbooks/apt.git
+  [south]: http://south.readthedocs.org/en/latest/index.html
   [build-essential]: https://github.com/opscode-cookbooks/build-essential.git
   [git]: https://github.com/opscode-cookbooks/git.git
   [vim]: https://github.com/opscode-cookbooks/vim.git

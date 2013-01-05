@@ -16,7 +16,7 @@ include_recipe  "python"
 
 # Set up production requirements
 execute "install python packages" do
-    command "sudo pip install -r /vagrant/#{node[:project_folder_name]}/prod_requirements.txt"
+    command "sudo pip install -r /vagrant/#{node[:project_folder_name]}/#{node[:django_settings][:pip_requirements_file]}"
 end
 
 execute "install build dependencies for mysqldb" do

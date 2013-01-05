@@ -35,6 +35,7 @@ Vagrant::Config.run do |config|
                     :dbname => "appname",
                     :django_settings => {
                         :project_name => "onpoint",
+                        :pip_requirements_file => "requirements/production.txt",
                         :production_settings_file => "production_settings.py",
                         :south_apps => ["tastypie", "craigslist"],
                         :fixtures => [

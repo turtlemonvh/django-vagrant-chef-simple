@@ -37,9 +37,9 @@ Basic Use
         cd django-vagrant-chef-simple
         git clone /path/to/your/project appname
 
-   This project expects manage.py to live 1 directly __below__ `appname`.  Thus, the location from the top directory would be `django-vagrant-chef-simple/appname/myprojectname/manage.py`.
+   This project expects manage.py to live one directory __below__ `appname`.  Thus, the location from the top directory would be `django-vagrant-chef-simple/appname/myprojectname/manage.py`.
 
-1. Create a deployment specific requirements file called `prod_requirements.txt` and place in the `appname` directory.  This will be called via pip to install any python packages required for your project.  Mine looks like this:
+1. Create a deployment specific requirements file.  This will be called via pip to install any python packages required for your project.  Mine looks like this:
 
         Django==1.3.1
         Pinax==0.9a2
@@ -55,8 +55,11 @@ Basic Use
         mysql-python==1.2.3
         pinax-theme-bootstrap==0.1.2
 
+  Don't forget `mysql-python`!
+        
 1. Edit the main VagrantFile under the "django_settings" variable to change: 
   * `project_name` from `onpoint` to the name of your project, e.g. `myprojectname`
+  * `pip_requirements_file` to the location of your requirements file, relative to the directory `project_folder_name`
   * `south_apps` to a list of the apps that you want to migrate using [South][south].
   * `fixtures` to a list of the fixtures you want to be installed in your new database.  The `description` field is only used by vagrant to to display information about what data is being loaded.  
 

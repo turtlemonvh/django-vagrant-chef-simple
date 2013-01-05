@@ -68,8 +68,6 @@ Basic Use
         python manage.py dumpdata --indent=2 auth.user
 
   Delete all but the first entry from this file, which should be the superuser account you created when first running `manage.py syncdb`
-        
-1. Create another fixture called `loaded_options.json` to load any other initial data for your database.
 
 1. Create a file called `production_settings.py` at the same level as `manage.py`; use this to over-ride anythin in `settings.py` that you want changed in production.  For example, mine has the following:
 

@@ -29,8 +29,8 @@ execute "create-database" do
     # command "mysql -p\"#{node['mysql']['server_root_password']}\" -e 'SHOW DATABASES;'"
 end
 
-# Creates new conf file in the mods available folder; all conf files here are included
-template "#{node['apache']['dir']}/mods-available/django_mod_wsgi.conf" do
+# Creates new conf file in the mods-enabled folder; all conf files here are included
+template "#{node['apache']['dir']}/mods-enabled/django_mod_wsgi.conf" do
   source "httpd.conf.erb"
   owner "root"
   group node['apache']['root_group']
@@ -80,7 +80,7 @@ link "/var/www/site_media" do
 end
 
 execute "Create local django settings" do
-    command "cp #{node[:production_settings_file]} local_settings.py"
+    command "cp #{node[:django_settings][:production_settings_file]} local_settings.py"
     cwd "/vagrant/#{node[:project_folder_name]}/#{node[:django_settings][:project_name]}"
     action :run
 end

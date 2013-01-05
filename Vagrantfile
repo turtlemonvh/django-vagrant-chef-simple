@@ -35,6 +35,7 @@ Vagrant::Config.run do |config|
                     :dbname => "appname",
                     :django_settings => {
                         :project_name => "onpoint",
+                        :production_settings_file => "production_settings.py",
                         :south_apps => ["tastypie", "craigslist"],
                         :fixtures => [
                             {
@@ -45,8 +46,7 @@ Vagrant::Config.run do |config|
                                 :name => "loaded_options.json",
                                 :description => "Initialize Database"
                             }
-                        ],
-                        :production_settings_file => "production_settings.py"
+                        ]
                     }
                   }
     end

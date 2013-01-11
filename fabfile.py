@@ -38,6 +38,9 @@ def update_repo():
         run("git pull")
         run("touch app.wsgi")
 
+def restart_apache():
+    sudo("service apache2 restart", pty=False)
+        
 # Call post pull
 # http://stackoverflow.com/questions/6379484/fabric-appears-to-start-apache2-but-doesnt
 def refresh_code():

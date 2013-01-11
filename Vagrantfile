@@ -35,7 +35,7 @@ Vagrant::Config.run do |config|
                     :dbname => "appname",
                     :django_settings => {
                         :project_name => "homesurvey",
-                        :pip_requirements_file => "requirements/production.txt",
+                        :pip_requirements_file => "homesurvey/requirements/production.txt",
                         :production_settings_file => "production_settings.py",
                         :south_apps => ["tastypie", "survey_browser"],
                         :fixtures => [
@@ -48,6 +48,11 @@ Vagrant::Config.run do |config|
                                 :description => "Initialize Database with Survey Response Possibilities"
                             }
                         ]
+                    },
+                    :wkhtmltopdf => {
+                        :version => "0.11.0_rc1",
+                        :arch => "i386",
+                        :binary => ""
                     }
                   }
     end

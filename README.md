@@ -27,6 +27,7 @@ These are directly cloned into the project instead of included as sub-modules, m
   - [python] [python]
   - [mysql] [mysql]
   - [openssl] [openssl]
+  - [wkhtmltopdf] [wkhtmltopdf-cookbook]
 
 
 Basic Use
@@ -162,6 +163,7 @@ TODO
   [mysql]: https://github.com/opscode-cookbooks/mysql.git
   [openssl]: https://github.com/opscode-cookbooks/openssl.git
   [django_apache_modwsgi]: https://docs.djangoproject.com/en/1.4/howto/deployment/wsgi/modwsgi/
+  [wkhtmltopdf-cookbook]: https://github.com/arkency/wkhtmltopdf-cookbook.git
   
   [0]: https://github.com/honza/django-chef
   [1]: https://www.virtualbox.org/wiki/Downloads

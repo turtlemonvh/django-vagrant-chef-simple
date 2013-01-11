@@ -34,10 +34,10 @@ Vagrant::Config.run do |config|
                     :project_folder_name => "appname",
                     :dbname => "appname",
                     :django_settings => {
-                        :project_name => "onpoint",
+                        :project_name => "homesurvey",
                         :pip_requirements_file => "requirements/production.txt",
                         :production_settings_file => "production_settings.py",
-                        :south_apps => ["tastypie", "craigslist"],
+                        :south_apps => ["tastypie", "survey_browser"],
                         :fixtures => [
                             {
                                 :name => "user_session.json",
@@ -45,7 +45,7 @@ Vagrant::Config.run do |config|
                             }, 
                             {
                                 :name => "loaded_options.json",
-                                :description => "Initialize Database"
+                                :description => "Initialize Database with Survey Response Possibilities"
                             }
                         ]
                     }

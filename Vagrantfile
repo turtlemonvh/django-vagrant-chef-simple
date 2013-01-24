@@ -31,9 +31,14 @@ Vagrant::Config.run do |config|
                     },
                     :python => { :version => 2.7},
                     :server_name => "precise32",
-                    :project_folder_name => "appname",
+                    :project_folder_name => "/vagrant/appname",
                     :dbname => "appname",
+                    :wsgi_user => {
+                        :user => "vagrant",
+                        :group => "vagrant"
+                    },
                     :django_settings => {
+                        :project_base_dir => "vagrant",
                         :project_name => "homesurvey",
                         :pip_requirements_file => "requirements/production.txt",
                         :production_settings_file => "production_settings.py",

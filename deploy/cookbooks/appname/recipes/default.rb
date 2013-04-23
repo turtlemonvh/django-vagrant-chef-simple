@@ -14,6 +14,22 @@ include_recipe  "git"
 include_recipe  "vim"
 include_recipe  "python"
 
+# Install extra packages for PIL
+execute "install build dependencies for mysqldb" do
+    command "sudo apt-get install libjpeg62 libjpeg-dev libfreetype6 libfreetype6-dev zlib1g-dev"
+end
+
+# Create links to packages
+execute "Add symbolic link to libjpeg" do
+    command "sudo ln -s /usr/lib/i386-linux-gnu/libjpeg.so /usr/lib/"
+end
+execute "Add symbolic link to libfreetype" do
+    command "sudo ln -s /usr/lib/i386-linux-gnu/libfreetype.so /usr/lib/"
+end
+execute "Add symbolic link to libz" do
+    command "sudo ln -s /usr/lib/i386-linux-gnu/libz.so /usr/lib/"
+end
+
 # Set up production requirements
 execute "install python packages" do
     command "sudo pip install -r /vagrant/#{node[:project_folder_name]}/#{node[:django_settings][:pip_requirements_file]}"
@@ -117,4 +133,7 @@ execute "mv /tmp/wkhtmltopdf-#{node[:wkhtmltopdf][:arch]} #{node[:wkhtmltopdf][:
   creates node[:wkhtmltopdf][:binary]
 end
 
-
+# For using "find" and "locate" commands
+execute "Update file database" do
+  command "sudo updatedb"
+end

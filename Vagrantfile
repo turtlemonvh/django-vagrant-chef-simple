@@ -34,25 +34,24 @@ Vagrant::Config.run do |config|
                     :project_folder_name => "appname",
                     :dbname => "appname",
                     :django_settings => {
-                        :project_name => "homesurvey",
-                        :pip_requirements_file => "homesurvey/requirements/production.txt",
-                        :production_settings_file => "production_settings.py",
-                        :south_apps => ["tastypie", "survey_browser"],
+                        :project_name => "onpoint",
+                        :pip_requirements_file => "requirements/production.txt",                       :production_settings_file => "production_settings.py",
+                        :south_apps => ["tastypie", "craigslist"],
                         :fixtures => [
                             {
                                 :name => "user_session.json",
                                 :description => "Load Superuser"
                             }, 
                             {
-                                :name => "loaded_options.json",
-                                :description => "Initialize Database with Survey Response Possibilities"
+                                :name => "initial_data.json",
+                                :description => "Sites"
                             }
                         ]
                     },
                     :wkhtmltopdf => {
                         :version => "0.11.0_rc1",
                         :arch => "i386",
-                        :binary => ""
+                        :binary => "/usr/bin/wkhtmltopdf"
                     }
                   }
     end

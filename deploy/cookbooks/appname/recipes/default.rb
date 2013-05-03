@@ -15,8 +15,28 @@ include_recipe  "vim"
 include_recipe  "python"
 
 # Install extra packages for PIL
-execute "install build dependencies for mysqldb" do
-    command "sudo apt-get install libjpeg62 libjpeg-dev libfreetype6 libfreetype6-dev zlib1g-dev"
+apt_package "libjpeg62" do
+  action :install
+end
+apt_package "libjpeg-dev" do
+  action :install
+end
+apt_package "libfreetype6" do
+  action :install
+end
+apt_package "libfreetype6-dev" do
+  action :install
+end
+apt_package "zlib1g-dev" do
+  action :install
+end
+
+# Install packages for wkhtmltopdf
+apt_package "libxrender1" do
+  action :install
+end
+apt_package "libfontconfig1" do
+  action :install
 end
 
 # Create links to packages
@@ -129,7 +149,7 @@ execute "tar xfvj /tmp/#{wkhtmltopdf_file}" do
   end
 end
 
-execute "mv /tmp/wkhtmltopdf-#{node[:wkhtmltopdf][:arch]} #{node[:wkhtmltopdf][:binary]}" do
+execute "sudo mv /tmp/wkhtmltopdf-#{node[:wkhtmltopdf][:arch]} #{node[:wkhtmltopdf][:binary]}" do
   creates node[:wkhtmltopdf][:binary]
 end
 

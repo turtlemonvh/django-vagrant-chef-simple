@@ -57,8 +57,13 @@ execute "install python packages" do
     command "sudo pip install -r /src/#{node[:project_folder_name]}/#{node[:django_settings][:pip_requirements_file]}"
 end
 
+# Install non-pip packages
+execute "install python supervisor" do
+    command "sudo easy_install supervisor"
+end
+
 execute "create-database" do
-    command "PGPASSWORD=#{node['postgresql']['password']['postgres']} createdb #{node[:dbname]} --username=postgres -h localhost"
+    command "PGPASSWORD=\"#{node['postgresql']['password']['postgres']}\" createdb #{node[:dbname]} --username=postgres -h localhost"
 end
 
 # Creates new conf file in the mods-enabled folder; all conf files here are included

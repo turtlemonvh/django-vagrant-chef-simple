@@ -52,7 +52,7 @@ end
 
 # Set up production requirements
 execute "install python packages" do
-    command "sudo pip install -r /vagrant/#{node[:project_folder_name]}/#{node[:django_settings][:pip_requirements_file]}"
+    command "sudo pip install -r /src/#{node[:project_folder_name]}/#{node[:django_settings][:pip_requirements_file]}"
 end
 
 execute "install build dependencies for mysqldb" do
@@ -78,7 +78,7 @@ end
 
 execute "Sync db" do
     command "python manage.py syncdb --noinput"
-    cwd "/vagrant/#{node[:project_folder_name]}/#{node[:django_settings][:project_name]}"
+    cwd "/src/#{node[:project_folder_name]}/#{node[:django_settings][:project_name]}"
     action :run
 end
 
@@ -86,7 +86,7 @@ end
 node[:django_settings][:south_apps].each do |app|
     execute "Migrate #{app}" do
         command "python manage.py migrate #{app}"
-        cwd "/vagrant/#{node[:project_folder_name]}/#{node[:django_settings][:project_name]}"
+        cwd "/src/#{node[:project_folder_name]}/#{node[:django_settings][:project_name]}"
         action :run
     end
 end
@@ -95,29 +95,29 @@ end
 node[:django_settings][:fixtures].each do |fixture|
     execute "#{fixture[:description]}" do
         command "python manage.py loaddata #{fixture[:name]}"
-        cwd "/vagrant/#{node[:project_folder_name]}/#{node[:django_settings][:project_name]}"
+        cwd "/src/#{node[:project_folder_name]}/#{node[:django_settings][:project_name]}"
         action :run
     end
 end
 
 # Load new site_media and setup to serve with apache
-directory "/vagrant/#{node[:project_folder_name]}/#{node[:django_settings][:project_name]}/site_media" do
+directory "/src/#{node[:project_folder_name]}/#{node[:django_settings][:project_name]}/site_media" do
   recursive true
   action :delete
-  not_if do ! File.directory?("/vagrant/#{node[:project_folder_name]}/#{node[:django_settings][:project_name]}/site_media") end
+  not_if do ! File.directory?("/src/#{node[:project_folder_name]}/#{node[:django_settings][:project_name]}/site_media") end
 end
 execute "Collect staticfiles" do
     command "python manage.py collectstatic --noinput"
-    cwd "/vagrant/#{node[:project_folder_name]}/#{node[:django_settings][:project_name]}"
+    cwd "/src/#{node[:project_folder_name]}/#{node[:django_settings][:project_name]}"
     action :run
 end
 link "/var/www/site_media" do
-  to "/vagrant/#{node[:project_folder_name]}/#{node[:django_settings][:project_name]}/site_media/"
+  to "/src/#{node[:project_folder_name]}/#{node[:django_settings][:project_name]}/site_media/"
 end
 
 execute "Create local django settings" do
     command "cp #{node[:django_settings][:production_settings_file]} local_settings.py"
-    cwd "/vagrant/#{node[:project_folder_name]}/#{node[:django_settings][:project_name]}"
+    cwd "/src/#{node[:project_folder_name]}/#{node[:django_settings][:project_name]}"
     action :run
 end
 

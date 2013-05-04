@@ -1,26 +1,26 @@
 ServerName <%= @server_name %>
 
-Alias /robots.txt /vagrant/<%= node[:project_folder_name] %>/<%= node[:django_settings][:project_name] %>/site_media/static/robots.txt
-Alias /favicon.ico /vagrant/<%= node[:project_folder_name] %>/<%= node[:django_settings][:project_name] %>/site_media/static/favicon.ico
+Alias /robots.txt /src/<%= node[:project_folder_name] %>/<%= node[:django_settings][:project_name] %>/site_media/static/robots.txt
+Alias /favicon.ico /src/<%= node[:project_folder_name] %>/<%= node[:django_settings][:project_name] %>/site_media/static/favicon.ico
 
-Alias /site_media/media/ /vagrant/<%= node[:project_folder_name] %>/<%= node[:django_settings][:project_name] %>/site_media/media/
-Alias /site_media/static/ /vagrant/<%= node[:project_folder_name] %>/<%= node[:django_settings][:project_name] %>/site_media/static/
+Alias /site_media/media/ /src/<%= node[:project_folder_name] %>/<%= node[:django_settings][:project_name] %>/site_media/media/
+Alias /site_media/static/ /src/<%= node[:project_folder_name] %>/<%= node[:django_settings][:project_name] %>/site_media/static/
 
-<Directory /vagrant/<%= node[:project_folder_name] %>/<%= node[:django_settings][:project_name] %>/site_media/static>
+<Directory /src/<%= node[:project_folder_name] %>/<%= node[:django_settings][:project_name] %>/site_media/static>
     Order deny,allow
     Allow from all
 </Directory>
 
-<Directory /vagrant/<%= node[:project_folder_name] %>/<%= node[:django_settings][:project_name] %>/site_media/media>
+<Directory /src/<%= node[:project_folder_name] %>/<%= node[:django_settings][:project_name] %>/site_media/media>
     Order deny,allow
     Allow from all
 </Directory>
 
-WSGIDaemonProcess pinaxWSGI user=vagrant group=vagrant threads=25 python-path=/usr/local/lib/python2.7/site-packages:/vagrant/<%= node[:project_folder_name] %>/<%= node[:django_settings][:project_name] %>
+WSGIDaemonProcess pinaxWSGI user=vagrant group=vagrant threads=25 python-path=/usr/local/lib/python2.7/site-packages:/src/<%= node[:project_folder_name] %>/<%= node[:django_settings][:project_name] %>
 WSGIProcessGroup pinaxWSGI
-WSGIScriptAlias / /vagrant/<%= node[:project_folder_name] %>/<%= node[:django_settings][:project_name] %>/wsgi.py
+WSGIScriptAlias / /src/<%= node[:project_folder_name] %>/<%= node[:django_settings][:project_name] %>/wsgi.py
 
-<Directory /vagrant/<%= node[:project_folder_name] %>/<%= node[:django_settings][:project_name] %>>
+<Directory /src/<%= node[:project_folder_name] %>/<%= node[:django_settings][:project_name] %>>
     <Files wsgi.py>
         Order allow,deny
         Allow from all

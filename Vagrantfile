@@ -1,4 +1,5 @@
-Vagrant::Config.run do |config|
+Vagrant.configure("2") do |config|
+
   config.vm.define :djangovm do |django_config|
     # Every Vagrant virtual environment requires a box to build off of.
     django_config.vm.box = "precise32"
@@ -7,10 +8,12 @@ Vagrant::Config.run do |config|
     # doesn't already exist on the user's system.
     django_config.vm.box_url = "http://files.vagrantup.com/precise32.box"
 
+    django_config.vm.synced_folder "C:/Users/tcvh/Documents/AptanaWorkspace/onpoint_django", "/src/appname"
+    
     # Forward a port from the guest to the host, which allows for outside
     # computers to access the VM, whereas host only networking does not.
-    django_config.vm.forward_port 80, 8070
-    django_config.vm.forward_port 8000, 7001
+    django_config.vm.network :forwarded_port, guest: 80, host: 80
+    django_config.vm.network :forwarded_port, guest: 8000, host: 7001
 
     # Enable provisioning with chef solo, specifying a cookbooks path (relative
     # to this Vagrantfile), and adding some recipes and/or roles.
@@ -35,8 +38,9 @@ Vagrant::Config.run do |config|
                     :dbname => "appname",
                     :django_settings => {
                         :project_name => "onpoint",
-                        :pip_requirements_file => "requirements/production.txt",                       :production_settings_file => "production_settings.py",
-                        :south_apps => ["tastypie", "craigslist"],
+                        :pip_requirements_file => "requirements/production.txt",
+                        :production_settings_file => "production_settings.py",
+                        :south_apps => ["tastypie", "social_auth", "viewtracker", "contact", "apps.craigslist"],
                         :fixtures => [
                             {
                                 :name => "user_session.json",

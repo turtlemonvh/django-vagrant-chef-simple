@@ -6,7 +6,7 @@ execute "Update apt repos" do
 end
 
 include_recipe  "openssl"
-include_recipe  "mysql::server"
+include_recipe  "postgresql::server"
 include_recipe  "apache2"
 include_recipe  "apache2::mod_wsgi"
 include_recipe  "build-essential"
@@ -57,14 +57,8 @@ execute "install python packages" do
     command "sudo pip install -r /src/#{node[:project_folder_name]}/#{node[:django_settings][:pip_requirements_file]}"
 end
 
-execute "install build dependencies for mysqldb" do
-    command "sudo apt-get -y build-dep python-mysqldb"
-end
-
 execute "create-database" do
-    command "mysql -p\"#{node['mysql']['server_root_password']}\" -e 'CREATE DATABASE #{node[:dbname]}'"
-    # show with:
-    # command "mysql -p\"#{node['mysql']['server_root_password']}\" -e 'SHOW DATABASES;'"
+    command "PGPASSWORD=#{node['postgresql']['password']['postgres']} createdb #{node[:dbname]} --username=postgres -h localhost"
 end
 
 # Creates new conf file in the mods-enabled folder; all conf files here are included
@@ -76,6 +70,12 @@ template "#{node['apache']['dir']}/mods-enabled/django_mod_wsgi.conf" do
   variables({
     :server_name => node[:server_name]
   })
+end
+
+execute "Create local django settings" do
+    command "cp #{node[:django_settings][:production_settings_file]} local_settings.py"
+    cwd "/src/#{node[:project_folder_name]}/#{node[:django_settings][:project_name]}"
+    action :run
 end
 
 execute "Sync db" do
@@ -117,14 +117,8 @@ link "/var/www/site_media" do
   to "/src/#{node[:project_folder_name]}/#{node[:django_settings][:project_name]}/site_media/"
 end
 
-execute "Create local django settings" do
-    command "cp #{node[:django_settings][:production_settings_file]} local_settings.py"
-    cwd "/src/#{node[:project_folder_name]}/#{node[:django_settings][:project_name]}"
-    action :run
-end
-
-execute "restart mysql" do
-    command "sudo service mysql restart"
+execute "restart postgres" do
+    command "sudo service postgresql restart"
 end
 execute "restart apache" do
     command "sudo service apache2 restart"

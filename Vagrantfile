@@ -25,12 +25,8 @@ Vagrant.configure("2") do |config|
       chef.add_recipe "appname::default" # does most of the work
 
       # Load custom attributes defined in node.json file
-      chef.json = { "mysql" => { 
-                        "bind_address" => "127.0.0.1",
-                        "server_root_password" => "iloverandompasswordsbutthiswilldo",
-                        "server_repl_password" => "iloverandompasswordsbutthiswilldo",
-                        "server_debian_password" => "iloverandompasswordsbutthiswilldo",
-                        "tunable" => { "innodb_adaptive_flushing" => "on"}
+      chef.json = { "postgresql" => { 
+                        "password" => { "postgres" => "iloverandompasswordsbutthiswilldo"}
                     },
                     :python => { :version => 2.7},
                     :server_name => "precise32",

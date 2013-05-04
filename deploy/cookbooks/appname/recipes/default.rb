@@ -13,6 +13,8 @@ include_recipe  "build-essential"
 include_recipe  "git"
 include_recipe  "vim"
 include_recipe  "python"
+include_recipe  "mongodb::10gen_repo"
+include_recipe  "mongodb::default"
 
 # Install extra packages for PIL
 apt_package "libjpeg62" do
